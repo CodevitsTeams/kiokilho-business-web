@@ -13,7 +13,7 @@ export default function Story() {
           <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3rem', marginBottom: '2rem' }}>Cerita Kami</h1>
           <div style={{ fontSize: '1.1rem', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '1.5rem', fontFamily: 'Outfit, sans-serif' }}>
             <p>Kiokilho lahir dari persimpangan antara penghormatan terhadap warisan budaya nusantara dan visi akan masa depan fesyen yang berkelanjutan.</p>
-            <p>Melihat industri fesyen yang serba cepat dan mengabaikan nilai-nilai lingkungan, pendiri kami, Dimas Oktavian Prasetyo, memulai perjalanan untuk mencari antitesis dari <em>fast fashion</em>. Ia menemukannya di Palembang, pada kelembutan kain jumputan yang kaya akan filosofi, dan memadukannya dengan ketangguhan serat goni, material organik tertua di dunia.</p>
+            <p>Melihat industri fesyen yang serba cepat dan mengabaikan nilai-nilai lingkungan, pendiri kami memulai perjalanan untuk mencari antitesis dari <em>fast fashion</em>. Inspirasi itu ditemukan di Yogyakarta, pada kelembutan kain jumputan yang kaya akan filosofi, dan memadukannya dengan ketangguhan serat goni, material organik tertua di dunia.</p>
             <p>Kami tidak sekadar membuat tas; kami mengurasi sebuah gerakan. Gerakan yang membuktikan bahwa fesyen mewah, elegan, dan estetik dapat dicapai sepenuhnya melalui material yang disediakan oleh bumi, tanpa harus merusaknya.</p>
           </div>
         </motion.div>
