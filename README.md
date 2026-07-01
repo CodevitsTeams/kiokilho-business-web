@@ -1,16 +1,57 @@
-# React + Vite
+<div align="center">
+  <img src="public/favicon.svg" alt="Kiokilho Logo" width="80" height="80" />
+  <h1 align="center">Kiokilho — Aura Artisans</h1>
+  <p align="center">
+    <strong>Elevating natural burlap into timeless masterpieces.</strong>
+    <br />
+    A luxury eco-fashion marketplace featuring generative AI shopping assistance.
+  </p>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+<hr />
 
-Currently, two official plugins are available:
+## ✦ The Vision
+**Kiokilho** is not just a marketplace; it is a digital boutique crafted for the modern eco-conscious individual. By merging the rustic authenticity of natural burlap with high-end digital aesthetics, we present a seamless, sophisticated shopping experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✦ Key Features
 
-## React Compiler
+- **Generative AI Assistant:** An intelligent, context-aware virtual assistant powered by Gemini 3.1 Flash Lite. Features real-time **Generative UI**, rendering interactive product micro-cards instantly within the chat stream.
+- **Cinematic User Experience:** Liquid-smooth scrolling powered by Lenis, accompanied by hardware-accelerated micro-animations and parallax effects via Framer Motion.
+- **Bespoke Aesthetics:** A meticulously curated design system utilizing `Playfair Display` for elegant serif headings and `Outfit` for pristine modern legibility. Employs deep charcoals, champagne gold accents, and subtle glassmorphism.
+- **High-Fidelity Product Showcase:** Immersive galleries featuring the Classic Tote, Urban Sling, and Explorer Pack with seamless cart integration and WhatsApp conversion funnels.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✦ Technology Stack
 
-## Expanding the Oxlint configuration
+| Architecture | Technologies |
+| --- | --- |
+| **Core** | React 18, Vite |
+| **Styling** | Vanilla CSS3, Custom Properties |
+| **Motion & UX** | Framer Motion, Lenis Smooth Scroll |
+| **AI Engine** | Google Generative AI (Gemini 3.1 Flash Lite) |
+| **Iconography** | Lucide React |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## ✦ Local Development
+
+To experience the Kiokilho digital boutique locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/CodevitsTeams/kiokilho-business-web.git
+
+# Navigate to the project directory
+cd kiokilho-business-web
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+## ✦ Legal & Brand Identity
+Kiokilho operates exclusively under its authentic local identity, headquartered in Prambanan, Sleman, Yogyakarta. All digital assets, AI interaction boundaries, and brand guidelines are strictly enforced to maintain a luxury, professional narrative.
+
+<hr />
+<div align="center">
+  <small>© 2026 Kiokilho. All rights reserved.</small>
+</div>
