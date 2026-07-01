@@ -3,6 +3,8 @@ import Lenis from 'lenis';
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import BentoGrid from './components/BentoGrid'
+import PressMentions from './components/PressMentions'
+import Craftsmanship from './components/Craftsmanship'
 import ProductShowcase from './components/ProductShowcase'
 import Testimonials from './components/Testimonials'
 import Footer from './components/Footer'
@@ -53,7 +55,9 @@ function App() {
       <Navbar />
       <main>
         <Hero />
+        <PressMentions />
         <BentoGrid />
+        <Craftsmanship />
         <ProductShowcase />
         <Testimonials />
       </main>
