@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import BentoGrid from './components/BentoGrid'
-import PressMentions from './components/PressMentions'
-import Craftsmanship from './components/Craftsmanship'
-import ProductShowcase from './components/ProductShowcase'
-import Testimonials from './components/Testimonials'
+import LandingPage from './components/LandingPage'
+import AllProducts from './components/AllProducts'
+import CartSidebar from './components/CartSidebar'
 import Footer from './components/Footer'
 import AIAssistant from './components/AIAssistant'
 import './App.css'
@@ -51,19 +50,20 @@ function App() {
   }, []);
 
   return (
-    <div style={{ background: 'var(--bg-color)', minHeight: '100vh', color: 'var(--text-primary)' }}>
-      <Navbar />
-      <main>
-        <Hero />
-        <PressMentions />
-        <BentoGrid />
-        <Craftsmanship />
-        <ProductShowcase />
-        <Testimonials />
-      </main>
-      <Footer />
-      <AIAssistant />
-    </div>
+    <CartProvider>
+      <Router>
+        <div style={{ background: 'var(--bg-color)', minHeight: '100vh', color: 'var(--text-primary)' }}>
+          <Navbar />
+          <CartSidebar />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/products" element={<AllProducts />} />
+          </Routes>
+          <Footer />
+          <AIAssistant />
+        </div>
+      </Router>
+    </CartProvider>
   )
 }
 

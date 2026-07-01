@@ -1,11 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Plus } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 import toteImg from '../assets/tote_bag.png';
 import slingImg from '../assets/sling_bag.png';
 import backpackImg from '../assets/backpack_bag.png';
 
 export default function ProductShowcase() {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
+    addToCart(product);
+  };
+
   return (
     <section id="store" style={{ padding: '10rem 0', background: 'var(--surface-color)', position: 'relative' }}>
       <div className="container">
@@ -67,6 +75,7 @@ export default function ProductShowcase() {
               
               <div>
                 <motion.button 
+                  onClick={(e) => handleAddToCart(e, { id: 1, name: "Kiokilho Classic Tote", price: "Rp 499.000", image: toteImg })}
                   variants={{
                     hover: { backgroundColor: 'var(--accent-color)', color: '#ffffff', gap: '1.2rem' }
                   }}
@@ -82,10 +91,11 @@ export default function ProductShowcase() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.8rem',
+                    cursor: 'pointer',
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  Jelajahi <ArrowRight size={18} />
+                  <Plus size={18} /> Tambah ke Keranjang
                 </motion.button>
               </div>
             </div>
@@ -139,10 +149,11 @@ export default function ProductShowcase() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--accent-color)', fontFamily: 'Outfit, sans-serif' }}>Rp 349.000</div>
                   <motion.div 
+                    onClick={(e) => handleAddToCart(e, { id: 2, name: "Urban Sling", price: "Rp 349.000", image: slingImg })}
                     variants={{ hover: { x: 8, color: 'var(--accent-color)' } }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.1em', transition: 'color 0.3s ease' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.1em', transition: 'color 0.3s ease', cursor: 'pointer' }}
                   >
-                    Lihat Detail <ArrowRight size={18} />
+                    Beli <Plus size={18} />
                   </motion.div>
                 </div>
               </div>
@@ -181,10 +192,11 @@ export default function ProductShowcase() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--accent-color)', fontFamily: 'Outfit, sans-serif' }}>Rp 899.000</div>
                   <motion.div 
+                    onClick={(e) => handleAddToCart(e, { id: 3, name: "Explorer Pack", price: "Rp 899.000", image: backpackImg })}
                     variants={{ hover: { x: 8, color: 'var(--accent-color)' } }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.1em', transition: 'color 0.3s ease' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, fontSize: '0.95rem', textTransform: 'uppercase', letterSpacing: '0.1em', transition: 'color 0.3s ease', cursor: 'pointer' }}
                   >
-                    Lihat Detail <ArrowRight size={18} />
+                    Beli <Plus size={18} />
                   </motion.div>
                 </div>
               </div>
