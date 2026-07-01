@@ -8,6 +8,7 @@ import logoImg from '../assets/Kiokilho_transparent.png';
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { totalItems, openCart } = useCart();
   const location = useLocation();
@@ -83,7 +84,7 @@ export default function Navbar() {
         </Link>
 
         {/* Links (Desktop) */}
-        <div className="nav-links" style={{ display: 'flex', gap: '2rem', fontSize: '0.85rem', fontWeight: 500, color: textColor, transition: 'color 0.3s ease' }}>
+        <div className="nav-links mobile-hidden" style={{ display: 'flex', gap: '2rem', fontSize: '0.85rem', fontWeight: 500, color: textColor, transition: 'color 0.3s ease' }}>
           <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>Beranda</Link>
           <Link to="/products" style={{ color: 'inherit', textDecoration: 'none' }}>Koleksi</Link>
           <Link 
@@ -140,6 +141,7 @@ export default function Navbar() {
             href={getWhatsAppUrl()}
             target="_blank" 
             rel="noopener noreferrer"
+            className="mobile-hidden"
             style={{ 
               display: 'flex',
               alignItems: 'center',
@@ -175,7 +177,7 @@ export default function Navbar() {
               </svg>
             </div>
           </a>
-          <Menu size={18} className="mobile-menu" style={{ cursor: 'pointer', display: 'none' }} />
+          <Menu onClick={() => setIsMobileMenuOpen(true)} size={24} className="mobile-block" style={{ cursor: 'pointer', display: 'none' }} />
         </div>
       </div>
 
@@ -234,6 +236,60 @@ export default function Navbar() {
               <button onClick={() => setIsSearchOpen(false)} style={{ position: 'absolute', right: '3rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', padding: 0, display: 'flex' }}>
                 <X size={24} />
               </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: '100vh',
+              background: 'var(--bg-color)',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '2rem'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+              <img src={logoImg} alt="Kiokilho" style={{ height: '28px', filter: 'brightness(0)' }} />
+              <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--text-primary)', cursor: 'pointer' }}>
+                <X size={32} />
+              </button>
+            </div>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', fontSize: '2rem', fontFamily: 'Playfair Display, serif', fontWeight: 500 }}>
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Beranda</Link>
+              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Koleksi</Link>
+              <Link to="/#bespoke" onClick={() => {
+                setIsMobileMenuOpen(false);
+                if (location.pathname === '/') {
+                  setTimeout(() => document.getElementById('bespoke')?.scrollIntoView({ behavior: 'smooth' }), 300);
+                }
+              }} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Bespoke</Link>
+              <Link to="/#testimonial" onClick={() => {
+                setIsMobileMenuOpen(false);
+                if (location.pathname === '/') {
+                  setTimeout(() => document.getElementById('testimonial')?.scrollIntoView({ behavior: 'smooth' }), 300);
+                }
+              }} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Testimoni</Link>
+            </div>
+
+            <div style={{ marginTop: 'auto', paddingBottom: '2rem' }}>
+              <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', padding: '1.2rem', background: '#25D366', color: '#1d1d1f', borderRadius: '50px', textDecoration: 'none', fontWeight: 600, fontFamily: 'Outfit, sans-serif', fontSize: '1.1rem' }}>
+                Chat via WhatsApp
+              </a>
             </div>
           </motion.div>
         )}

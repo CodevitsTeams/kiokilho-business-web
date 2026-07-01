@@ -17,7 +17,7 @@ export default function ProductShowcase() {
   };
 
   return (
-    <section id="store" style={{ padding: '10rem 0', background: 'var(--surface-color)', position: 'relative' }}>
+    <section id="store" style={{ padding: 'clamp(5rem, 10vw, 10rem) 0', background: 'var(--surface-color)', position: 'relative' }}>
       <div className="container">
         
         <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
@@ -70,8 +70,8 @@ export default function ProductShowcase() {
             }}
             whileHover="hover"
           >
-            <div style={{ flex: '1 1 400px', padding: '5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <h3 style={{ fontSize: '3rem', fontFamily: 'Playfair Display, serif', marginBottom: '1.5rem', color: 'var(--text-primary)', lineHeight: 1.1 }}>Kiokilho<br/>Classic Tote</h3>
+            <div style={{ flex: '1 1 300px', padding: 'clamp(2rem, 5vw, 5rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <h3 style={{ fontSize: 'clamp(2.2rem, 5vw, 3rem)', fontFamily: 'Playfair Display, serif', marginBottom: '1.5rem', color: 'var(--text-primary)', lineHeight: 1.1 }}>Kiokilho<br/>Classic Tote</h3>
               <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', marginBottom: '2.5rem', lineHeight: 1.6 }}>Elegan untuk keseharianmu. Paduan harmonis antara serat goni natural dengan detail jahitan jumputan yang memancarkan aura kemewahan tak lekang oleh waktu.</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '3rem' }}>
                 <span style={{ fontSize: '1.2rem', textDecoration: 'line-through', color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>Rp 799.000</span>
@@ -105,7 +105,7 @@ export default function ProductShowcase() {
               </div>
             </div>
             
-            <div style={{ flex: '1 1 400px', minHeight: '500px', background: '#000', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ flex: '1 1 300px', minHeight: 'clamp(300px, 50vw, 500px)', background: '#000', position: 'relative', overflow: 'hidden' }}>
               <motion.img 
                 variants={{
                   hover: { scale: 1.05 }
@@ -119,7 +119,7 @@ export default function ProductShowcase() {
           </motion.div>
 
           {/* Side by Side Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '2rem' }}>
             
             {/* Urban Sling */}
             <motion.div
@@ -139,7 +139,7 @@ export default function ProductShowcase() {
               }}
               whileHover="hover"
             >
-              <div style={{ background: '#000', height: '400px', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ background: '#000', height: 'clamp(300px, 50vw, 400px)', position: 'relative', overflow: 'hidden' }}>
                 <motion.img 
                   variants={{ hover: { scale: 1.08 } }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -148,8 +148,8 @@ export default function ProductShowcase() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                 />
               </div>
-              <div style={{ padding: '3.5rem' }}>
-                <h3 style={{ fontSize: '2.2rem', fontFamily: 'Playfair Display, serif', marginBottom: '1rem', color: 'var(--text-primary)' }}>Urban Sling</h3>
+              <div style={{ padding: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                <h3 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.2rem)', fontFamily: 'Playfair Display, serif', marginBottom: '1rem', color: 'var(--text-primary)' }}>Urban Sling</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6, fontSize: '1.05rem' }}>Praktis, dinamis, dan menawan. Cocok untuk mobilitas tinggi di perkotaan.</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
@@ -185,7 +185,7 @@ export default function ProductShowcase() {
               }}
               whileHover="hover"
             >
-              <div style={{ background: '#000', height: '400px', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ background: '#000', height: 'clamp(300px, 50vw, 400px)', position: 'relative', overflow: 'hidden' }}>
                 <motion.img 
                   variants={{ hover: { scale: 1.08 } }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -194,8 +194,8 @@ export default function ProductShowcase() {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                 />
               </div>
-              <div style={{ padding: '3.5rem' }}>
-                <h3 style={{ fontSize: '2.2rem', fontFamily: 'Playfair Display, serif', marginBottom: '1rem', color: 'var(--text-primary)' }}>Explorer Pack</h3>
+              <div style={{ padding: 'clamp(2rem, 5vw, 3.5rem)' }}>
+                <h3 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.2rem)', fontFamily: 'Playfair Display, serif', marginBottom: '1rem', color: 'var(--text-primary)' }}>Explorer Pack</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6, fontSize: '1.05rem' }}>Kapasitas besar dengan ketangguhan maksimal. Pendamping setia setiap petualangan.</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>

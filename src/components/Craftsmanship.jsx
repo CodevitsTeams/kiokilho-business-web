@@ -4,7 +4,7 @@ import artisanImg from '../assets/artisan_craftsmanship.png';
 
 export default function Craftsmanship() {
   return (
-    <section id="jumputan-art" style={{ padding: '10rem 0', background: '#0a0a0a', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+    <section id="jumputan-art" style={{ padding: 'clamp(5rem, 10vw, 10rem) 0', background: '#0a0a0a', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
       <div className="container">
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6rem' }}>
           
@@ -13,7 +13,7 @@ export default function Craftsmanship() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            style={{ flex: '1 1 400px' }}
+            style={{ flex: '1 1 300px' }}
           >
             <span style={{ 
               fontSize: '0.9rem', 
@@ -27,7 +27,7 @@ export default function Craftsmanship() {
             }}>
               Behind The Seams
             </span>
-            <h2 style={{ fontSize: '3.5rem', fontFamily: 'Playfair Display, serif', marginBottom: '2rem', lineHeight: 1.15 }}>
+            <h2 style={{ fontSize: 'clamp(2.5rem, 8vw, 3.5rem)', fontFamily: 'Playfair Display, serif', marginBottom: '2rem', lineHeight: 1.15 }}>
               Dedikasi dalam<br/>setiap anyaman.
             </h2>
             <p style={{ fontSize: '1.15rem', color: '#a1a1a6', marginBottom: '2rem', lineHeight: 1.8 }}>
@@ -53,7 +53,7 @@ export default function Craftsmanship() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            style={{ flex: '1 1 500px', position: 'relative' }}
+            style={{ flex: '1 1 300px', position: 'relative' }}
           >
             <div style={{ borderRadius: '2px', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.6)' }}>
               <img src={artisanImg} alt="Artisan Craftsmanship" style={{ width: '100%', height: 'auto', display: 'block', transform: 'scale(1.02)' }} />

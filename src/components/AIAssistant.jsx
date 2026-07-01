@@ -168,10 +168,10 @@ export default function AIAssistant() {
             transition={{ duration: 0.2 }}
             style={{
               position: 'fixed',
-              bottom: '100px',
-              right: '30px',
-              width: '360px',
-              height: '520px',
+              bottom: 'clamp(20px, 10vh, 100px)',
+              right: 'clamp(10px, 3vw, 30px)',
+              width: 'clamp(300px, calc(100vw - 20px), 360px)',
+              height: 'clamp(450px, calc(100vh - 120px), 520px)',
               background: '#ffffff',
               borderRadius: '24px',
               boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
@@ -321,10 +321,10 @@ export default function AIAssistant() {
         onClick={() => setIsOpen(!isOpen)}
         style={{
           position: 'fixed',
-          bottom: '30px',
-          right: '30px',
-          width: '65px',
-          height: '65px',
+          bottom: 'clamp(20px, 5vh, 30px)',
+          right: 'clamp(10px, 3vw, 30px)',
+          width: 'clamp(55px, 15vw, 65px)',
+          height: 'clamp(55px, 15vw, 65px)',
           borderRadius: '50%',
           background: 'var(--text-primary)',
           color: '#ffffff',
