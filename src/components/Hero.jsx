@@ -2,45 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import slide1Lifestyle from '../assets/burlap_bag_lifestyle.png';
-import slide2 from '../assets/hero_slide_2.png';
-import slide3 from '../assets/hero_slide_3.png';
-import slide4Lifestyle from '../assets/bag_lifestyle_4.png';
-import slide5Lifestyle from '../assets/slide5.jpeg';
-import slide5Mobile from '../assets/slide5mobile.jpeg';
+import lsp1 from '../assets/lsp1.jpeg';
+import lsp2 from '../assets/lsp2.jpeg';
+import lsp3 from '../assets/lsp3.jpeg';
+import lsp4 from '../assets/lsp4.jpeg';
+import lsp5 from '../assets/lsp5.jpeg';
+import ptr1 from '../assets/ptr1.jpeg';
+import ptr2 from '../assets/ptr2.jpeg';
+import ptr3 from '../assets/ptr3.jpeg';
+import ptr4 from '../assets/ptr4.jpeg';
+import ptr5 from '../assets/ptr5.jpeg';
 
 const slides = [
   {
-    image: slide1Lifestyle,
+    image: lsp1,
+    mobileImage: ptr1,
     kicker: "Eksklusif & Autentik",
     title1: "Setiap jahitan",
     title2: "membawa cerita.",
     lead: "Dirajut secara manual dengan penuh dedikasi, memadukan ketangguhan serat goni dengan keindahan motif jumputan Nusantara."
   },
   {
-    image: slide2,
+    image: lsp2,
+    mobileImage: ptr2,
     kicker: "Elegan & Mewah",
     title1: "Simfoni serat",
     title2: "natural.",
     lead: "Mewujudkan keanggunan sejati yang lahir dari material alam, disempurnakan oleh keterampilan tangan perajin lokal yang teliti di setiap detailnya."
   },
   {
-    image: slide3,
+    image: lsp3,
+    mobileImage: ptr3,
     kicker: "Ikonik & Klasik",
     title1: "Definisi baru",
     title2: "kemewahan.",
     lead: "Sebuah mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang tak lekang oleh waktu."
   },
   {
-    image: slide4Lifestyle,
+    image: lsp4,
+    mobileImage: ptr4,
     kicker: "Simbol Status",
     title1: "Menyatu dengan",
     title2: "gaya hidup.",
     lead: "Bukan sekadar tas, melainkan cerminan apresiasi Anda terhadap karya seni bernilai tinggi di setiap langkah. Hadir untuk menyempurnakan gaya eksklusif Anda."
   },
   {
-    image: slide5Lifestyle,
-    mobileImage: slide5Mobile,
+    image: lsp5,
+    mobileImage: ptr5,
     kicker: "Kebanggaan Bangsa",
     title1: "Pesona anggun",
     title2: "warisan bangsa.",
@@ -56,11 +64,11 @@ export default function Hero() {
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
-    
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
-    
+
     return () => {
       clearInterval(timer);
       window.removeEventListener('resize', handleResize);
