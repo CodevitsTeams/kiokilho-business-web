@@ -517,7 +517,7 @@ export default function AdminDashboard() {
       {/* PRODUCTS TABLE */}
       <div className="table-container">
         {loading ? (
-          <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>Memuat data dari Supabase...</div>
+          <div style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>Memuat data sistem...</div>
         ) : (
           <table className="admin-table">
             <thead style={{ background: 'var(--bg-color)', borderBottom: '1px solid var(--border-color)' }}>

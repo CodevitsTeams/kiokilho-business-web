@@ -136,7 +136,7 @@ export default function AllProducts() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '3rem' }}>
             {loading ? (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
-                <p style={{ fontSize: '1.2rem', fontFamily: 'Outfit, sans-serif' }}>Memuat koleksi dari Supabase...</p>
+                <p style={{ fontSize: '1.2rem', fontFamily: 'Outfit, sans-serif' }}>Memuat koleksi eksklusif...</p>
               </div>
             ) : error ? (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>

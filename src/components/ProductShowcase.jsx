@@ -75,7 +75,7 @@ export default function ProductShowcase() {
           
           {loading ? (
             <div style={{ textAlign: 'center', padding: '5rem', color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>
-              Memuat Mahakarya dari Supabase...
+              Mempersiapkan koleksi mahakarya...
             </div>
           ) : products.length >= 3 ? (
             <>
