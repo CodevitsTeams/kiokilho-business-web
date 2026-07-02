@@ -612,7 +612,7 @@ export default function AdminDashboard() {
                   <div className="form-grid">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Nama Produk</label>
-                      <input required name="name" value={formData.name} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
+                      <input required name="name" placeholder="Masukkan nama produk..." value={formData.name} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Kategori</label>
@@ -628,11 +628,11 @@ export default function AdminDashboard() {
                   <div className="form-grid">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Harga Jual (cth: Rp 499.000)</label>
-                      <input required name="price" value={formData.price} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
+                      <input required name="price" placeholder="Rp 0" value={formData.price} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Harga Asli (opsional)</label>
-                      <input name="original_price" value={formData.original_price} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
+                      <input name="original_price" placeholder="Rp 0" value={formData.original_price} onChange={handleInputChange} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem' }} />
                     </div>
                   </div>
 
@@ -681,12 +681,12 @@ export default function AdminDashboard() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Deskripsi Singkat</label>
-                    <textarea required name="description" value={formData.description} onChange={(e) => { handleInputChange(e); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} rows={3} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', resize: 'none', overflow: 'hidden', minHeight: '80px' }} />
+                    <textarea required name="description" placeholder="Tulis deskripsi singkat produk di sini..." value={formData.description} onChange={(e) => { handleInputChange(e); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} rows={3} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', resize: 'none', overflowY: 'auto', minHeight: '80px' }} />
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Deskripsi Lengkap</label>
-                    <textarea required name="long_description" value={formData.long_description} onChange={(e) => { handleInputChange(e); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} rows={5} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', resize: 'none', overflow: 'hidden', minHeight: '120px' }} />
+                    <textarea required name="long_description" placeholder="Tulis deskripsi lengkap dan detail produk di sini..." value={formData.long_description} onChange={(e) => { handleInputChange(e); e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px'; }} rows={5} style={{ padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', resize: 'none', overflowY: 'auto', minHeight: '120px' }} />
                   </div>
 
                   <button

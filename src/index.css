@@ -167,6 +167,14 @@ button:hover {
 }
 
 /* --- Mobile Responsiveness --- */
+.product-modal-content-section::-webkit-scrollbar {
+  display: none;
+}
+.product-modal-content-section {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 1.25rem;
@@ -199,6 +207,11 @@ button:hover {
   .product-modal {
     flex-direction: column !important;
     overflow-y: auto !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .product-modal::-webkit-scrollbar {
+    display: none;
   }
   
   .product-modal-img-section {
@@ -210,6 +223,11 @@ button:hover {
     flex: none !important;
     padding: 1.5rem !important;
     overflow-y: visible !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .product-modal-content-section::-webkit-scrollbar {
+    display: none;
   }
 }
 
