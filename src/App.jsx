@@ -21,6 +21,7 @@ import Careers from './components/Careers'
 import Investors from './components/Investors'
 import Ethics from './components/Ethics'
 import CookieConsent from './components/CookieConsent'
+import AdminDashboard from './components/AdminDashboard'
 import './App.css'
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
             <Route path="/careers" element={<Careers />} />
             <Route path="/investors" element={<Investors />} />
             <Route path="/ethics" element={<Ethics />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
           <Footer />
           <AIAssistant />

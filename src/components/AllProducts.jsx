@@ -11,6 +11,7 @@ import { supabase } from '../lib/supabase';
 
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -26,18 +27,15 @@ export default function AllProducts() {
 
   const getActiveTab = () => {
     const q = searchQuery.toLowerCase();
-    if (q.includes('tote')) return 'Tote Bag';
-    if (q.includes('sling')) return 'Sling Bag';
-    if (q.includes('pack')) return 'Backpack';
+    const foundCat = categories.find(c => q.includes(c.name.toLowerCase()));
+    if (foundCat) return foundCat.name;
     return 'Semua';
   };
   const activeTab = getActiveTab();
 
   const handleTabClick = (cat) => {
     if (cat === 'Semua') navigate('/products');
-    else if (cat === 'Tote Bag') navigate('/products?q=Tote');
-    else if (cat === 'Sling Bag') navigate('/products?q=Sling');
-    else if (cat === 'Backpack') navigate('/products?q=Backpack');
+    else navigate(`/products?q=${encodeURIComponent(cat)}`);
   };
 
   const filteredProducts = products.filter(p =>
@@ -47,13 +45,19 @@ export default function AllProducts() {
   );
 
   useEffect(() => {
-    async function loadProducts() {
+    async function loadData() {
       try {
-        const { data, error } = await supabase.from('products').select('*').order('id');
-        if (error) throw error;
+        // Load categories
+        const { data: catData, error: catError } = await supabase.from('categories').select('*').order('created_at');
+        if (catError) throw catError;
+        setCategories(catData || []);
+
+        // Load products
+        const { data: prodData, error: prodError } = await supabase.from('products').select('*').order('id');
+        if (prodError) throw prodError;
         
         // Map database fields to the UI expected format
-        const formattedData = data.map(p => ({
+        const formattedData = prodData.map(p => ({
           ...p,
           image: p.image_url,
           images: p.images_array || [p.image_url],
@@ -63,13 +67,13 @@ export default function AllProducts() {
         
         setProducts(formattedData);
       } catch (err) {
-        console.error("Error loading products:", err);
+        console.error("Error loading data:", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     }
-    loadProducts();
+    loadData();
     window.scrollTo(0, 0);
   }, []);
 
@@ -105,7 +109,7 @@ export default function AllProducts() {
 
           {/* Filter Bar */}
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 'clamp(1rem, 3vw, 2rem)', marginBottom: '4rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '2rem' }}>
-            {['Semua', 'Tote Bag', 'Sling Bag', 'Backpack'].map((cat, idx) => {
+            {['Semua', ...categories.map(c => c.name)].map((cat, idx) => {
               const isActive = cat === activeTab;
               return (
                 <div
@@ -140,7 +144,7 @@ export default function AllProducts() {
               </div>
             ) : filteredProducts.length === 0 ? (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
-                <h3 style={{ fontSize: '2rem', fontFamily: 'Playfair Display, serif', color: 'var(--text-primary)', marginBottom: '1rem' }}>Hasil tidak ditemukan</h3>
+                <h3 style={{ fontSize: '1.5rem', fontFamily: 'Playfair Display, serif', color: 'var(--text-primary)', marginBottom: '1rem' }}>Hasil tidak ditemukan</h3>
                 <p style={{ fontSize: '1.1rem', fontFamily: 'Outfit, sans-serif' }}>Maaf, kami tidak dapat menemukan koleksi untuk "{searchQuery}".</p>
               </div>
             ) : (

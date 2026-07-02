@@ -3,19 +3,22 @@ import { MessageCircle, X, Send, Bot, User, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import toteImg from '../assets/tote_bag.png';
-import slingImg from '../assets/sling_bag.png';
-import backpackImg from '../assets/backpack_bag.png';
+import { supabase } from '../lib/supabase';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ 
-  model: "gemini-3.1-flash-lite",
-  systemInstruction: "Kamu adalah asisten virtual Kiokilho, brand tas goni premium di Indonesia. Jawab pertanyaan pengguna dengan gaya bahasa yang elegan, ramah, dan profesional. Selalu bantu pengguna menemukan produk tas goni yang tepat. Untuk informasi lebih detail mengenai apa pun, kamu WAJIB mengarahkan pengguna untuk chat ke nomor WhatsApp kami di 081234567890 (dengan menyebut nama Mbak Vera). SANGAT PENTING 1: Kamu HANYA diizinkan untuk membahas topik seputar Kiokilho, produk tas, eco-fashion, dan pesanan. Jika ditanya di luar itu, jawab: 'Maaf, aku hanya bisa menjawab seputar produk Kiokilho.' SANGAT PENTING 2: Jika merekomendasikan produk (Classic Tote, Urban Sling, atau Explorer Pack), WAJIB bungkus namanya dengan kurung siku ganda, contoh: [[Classic Tote]]. JANGAN tambahkan tanda baca (koma/titik) atau kata penghubung ('dan') di sekitar kurung siku. Tuliskan setiap produk di baris baru (Enter) agar tampilan kartu UI rapi."
-});
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
+  const [dbProducts, setDbProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      const { data } = await supabase.from('products').select('*');
+      if (data) setDbProducts(data);
+    }
+    fetchProducts();
+  }, []);
   const [messages, setMessages] = useState(() => {
     const saved = localStorage.getItem('kiokilho_ai_chat');
     if (saved) {
@@ -57,12 +60,24 @@ export default function AIAssistant() {
     setIsLoading(true);
 
     try {
+      const systemInstruction = `Kamu adalah asisten virtual Kiokilho, brand tas goni premium di Indonesia. Jawab pertanyaan pengguna dengan gaya bahasa yang elegan, ramah, dan profesional. Selalu bantu pengguna menemukan produk tas goni yang tepat. Untuk informasi lebih detail mengenai apa pun, kamu WAJIB mengarahkan pengguna untuk chat ke nomor WhatsApp kami di 081234567890 (dengan menyebut nama Mbak Vera). SANGAT PENTING 1: Kamu HANYA diizinkan untuk membahas topik seputar Kiokilho, produk tas, eco-fashion, dan pesanan. Jika ditanya di luar itu, jawab: 'Maaf, aku hanya bisa menjawab seputar produk Kiokilho.'
+
+Berikut adalah daftar produk terkini beserta harganya:
+${dbProducts.map(p => `- Nama: ${p.name}, Kategori: ${p.category}, Harga Jual: ${p.price}${p.original_price ? `, Harga Asli (Sebelum Diskon): ${p.original_price}` : ''}, Ukuran/Dimensi: ${p.dimensions || 'Tidak ada info ukuran'}, Deskripsi: ${p.description}`).join('\n')}
+
+SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB bungkus namanya dengan kurung siku ganda persis seperti namanya, contoh: [[Nama Produk]]. JANGAN tambahkan tanda baca (koma/titik) atau kata penghubung ('dan') di sekitar kurung siku. Tuliskan setiap produk di baris baru (Enter) agar tampilan kartu UI rapi.`;
+
+      const dynamicModel = genAI.getGenerativeModel({ 
+        model: "gemini-3.1-flash-lite",
+        systemInstruction
+      });
+
       const history = messages.slice(1).map(msg => ({
         role: msg.role === 'model' ? 'model' : 'user',
         parts: [{ text: msg.text }]
       }));
 
-      const chat = model.startChat({ history });
+      const chat = dynamicModel.startChat({ history });
       const result = await chat.sendMessageStream(userMessage);
       
       setMessages(prev => [...prev, { role: 'model', text: '' }]);
@@ -102,18 +117,17 @@ export default function AIAssistant() {
       if (!part) return null;
       
       if (part.startsWith('[[') && part.endsWith(']]')) {
-        const productName = part.slice(2, -2);
+        const parsedName = part.slice(2, -2).trim();
+        const foundProduct = dbProducts.find(p => p.name.toLowerCase() === parsedName.toLowerCase());
         
-        let imgSrc = null;
-        let price = "";
-        if (productName.toLowerCase().includes('tote')) { imgSrc = toteImg; price = "Rp 499.000"; }
-        else if (productName.toLowerCase().includes('sling')) { imgSrc = slingImg; price = "Rp 349.000"; }
-        else if (productName.toLowerCase().includes('explorer') || productName.toLowerCase().includes('pack')) { imgSrc = backpackImg; price = "Rp 899.000"; }
+        const imgSrc = foundProduct ? foundProduct.image_url : null;
+        const price = foundProduct ? foundProduct.price : "";
+        const actualName = foundProduct ? foundProduct.name : parsedName;
 
         return (
           <div 
             key={i} 
-            onClick={() => navigate(`/products?q=${encodeURIComponent(productName)}`)}
+            onClick={() => navigate(`/products?q=${encodeURIComponent(actualName)}`)}
             style={{ 
               margin: '6px 0', 
               padding: '10px', 
@@ -132,12 +146,12 @@ export default function AIAssistant() {
           >
             {imgSrc && (
               <div style={{ width: '50px', height: '50px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: '#000' }}>
-                <img src={imgSrc} alt={productName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={imgSrc} alt={actualName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem', fontFamily: 'Playfair Display, serif', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginBottom: '2px' }}>
-                {productName}
+                {actualName}
               </div>
               {price && <div style={{ fontSize: '0.8rem', color: 'var(--accent-color)', fontWeight: 600, fontFamily: 'Outfit, sans-serif' }}>{price}</div>}
             </div>
