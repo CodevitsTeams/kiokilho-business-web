@@ -1,14 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Edit2, Trash2, X, Save, Upload, Tag } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Upload, Tag, Lock, LogOut, Mail, Key, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategoryFilters, setSelectedCategoryFilters] = useState([]);
+
+  useEffect(() => {
+    const authStatus = localStorage.getItem('kiokilho_admin_auth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     id: null,
@@ -139,7 +152,7 @@ export default function AdminDashboard() {
           alert('Error menghapus produk: ' + errProducts.message);
           return;
         }
-        
+
         // 2. Hapus kategori
         const { error: errCat } = await supabase.from('categories').delete().eq('id', cat.id);
         if (errCat) alert('Error menghapus kategori: ' + errCat.message);
@@ -221,9 +234,94 @@ export default function AdminDashboard() {
     }
   };
 
-  const filteredProducts = selectedCategoryFilters.length > 0 
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoggingIn(true);
+    setLoginError('');
+
+    try {
+      const { data, error } = await supabase
+        .from('admins')
+        .select('*')
+        .eq('email', loginEmail)
+        .eq('password', loginPassword)
+        .single();
+
+      if (error || !data) {
+        setLoginError('Email atau Password salah.');
+      } else {
+        setIsAuthenticated(true);
+        localStorage.setItem('kiokilho_admin_auth', 'true');
+        setLoginError('');
+      }
+    } catch (err) {
+      setLoginError('Terjadi kesalahan koneksi.');
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('kiokilho_admin_auth');
+    setLoginEmail('');
+    setLoginPassword('');
+  };
+
+  const filteredProducts = selectedCategoryFilters.length > 0
     ? products.filter(p => selectedCategoryFilters.includes(p.category))
     : products;
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(1rem, 5vw, 2rem)' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ background: '#fff', padding: 'clamp(2.5rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem)', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.1)', width: '100%', maxWidth: '500px', border: '1px solid var(--border-color)', position: 'relative', overflow: 'hidden' }}
+        >
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--text-primary)' }}></div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+            <div style={{ background: '#f5f5f7', width: '64px', height: '64px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Lock size={28} color="var(--text-primary)" />
+            </div>
+          </div>
+          <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', textAlign: 'center', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Admin Login</h2>
+          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2.5rem', fontFamily: 'Outfit, sans-serif', fontSize: '0.95rem', lineHeight: '1.5' }}>Halo, Selamat datang di dashboard admin. Silakan masuk untuk mengelola katalog dan etalase eksklusif Kiokilho.</p>
+
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', fontFamily: 'Outfit, sans-serif' }}>
+            {loginError && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ background: '#fee2e2', color: '#dc2626', padding: '1rem', borderRadius: '12px', fontSize: '0.9rem', textAlign: 'center', fontWeight: 500 }}>
+                {loginError}
+              </motion.div>
+            )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Email</label>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Mail size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '16px' }} />
+                <input type="email" required value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} placeholder="admin@kiokilho.com" style={{ padding: '14px 16px 14px 44px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', background: '#f9f9fb', transition: 'border-color 0.2s', width: '100%', boxSizing: 'border-box' }} onFocus={(e) => e.target.style.borderColor = 'var(--text-primary)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-color)'} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Password</label>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <Key size={18} color="var(--text-secondary)" style={{ position: 'absolute', left: '16px' }} />
+                <input type={showPassword ? 'text' : 'password'} required value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} placeholder="••••••••" style={{ padding: '14px 44px 14px 44px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', fontSize: '1rem', background: '#f9f9fb', transition: 'border-color 0.2s', width: '100%', boxSizing: 'border-box' }} onFocus={(e) => e.target.style.borderColor = 'var(--text-primary)'} onBlur={(e) => e.target.style.borderColor = 'var(--border-color)'} />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: 'absolute', right: '12px', background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px', color: 'var(--text-secondary)' }}>
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+            <button type="submit" disabled={isLoggingIn} style={{ background: 'var(--text-primary)', color: '#fff', padding: '16px', borderRadius: '12px', border: 'none', fontSize: '1.1rem', fontWeight: 600, marginTop: '1rem', cursor: isLoggingIn ? 'not-allowed' : 'pointer', transition: 'opacity 0.2s', opacity: isLoggingIn ? 0.7 : 1 }} onMouseOver={(e) => { if (!isLoggingIn) e.target.style.opacity = '0.9'; }} onMouseOut={(e) => { if (!isLoggingIn) e.target.style.opacity = '1'; }}>
+              {isLoggingIn ? 'Memeriksa...' : 'Masuk'}
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-color)', padding: 'clamp(6rem, 15vw, 10rem) clamp(1.5rem, 5vw, 10rem)' }}>
@@ -435,22 +533,39 @@ export default function AdminDashboard() {
       <div className="admin-header">
         <div>
           <h1 className="admin-title">Admin Dashboard</h1>
-          <p style={{ color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>Kelola koleksi mahakarya dan kategori secara dinamis.</p>
+          <p style={{ color: 'var(--text-secondary)', fontFamily: 'Outfit, sans-serif' }}>Kelola koleksi mahakarya rajutan Nusantara dan ragam kategori warisan kebanggaan bangsa secara dinamis.</p>
         </div>
-        <button
-          onClick={openAddModal}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.5rem',
-            background: 'var(--text-primary)', color: 'var(--bg-color)',
-            padding: '12px 24px', borderRadius: '999px', border: 'none',
-            fontFamily: 'Outfit, sans-serif', fontWeight: 600, cursor: 'pointer',
-            transition: 'opacity 0.2s', width: 'max-content'
-          }}
-          onMouseOver={e => e.currentTarget.style.opacity = 0.8}
-          onMouseOut={e => e.currentTarget.style.opacity = 1}
-        >
-          <Plus size={18} /> Tambah Produk
-        </button>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={openAddModal}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              background: 'var(--text-primary)', color: 'var(--bg-color)',
+              padding: '12px 24px', borderRadius: '999px', border: 'none',
+              fontFamily: 'Outfit, sans-serif', fontWeight: 600, cursor: 'pointer',
+              transition: 'opacity 0.2s', width: 'max-content'
+            }}
+            onMouseOver={e => e.currentTarget.style.opacity = 0.8}
+            onMouseOut={e => e.currentTarget.style.opacity = 1}
+          >
+            <Plus size={18} /> Tambah Produk
+          </button>
+
+          <button
+            onClick={handleLogout}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.5rem',
+              background: '#fee2e2', color: '#dc2626',
+              padding: '12px 24px', borderRadius: '999px', border: 'none',
+              fontFamily: 'Outfit, sans-serif', fontWeight: 600, cursor: 'pointer',
+              transition: 'opacity 0.2s', width: 'max-content'
+            }}
+            onMouseOver={e => e.currentTarget.style.opacity = 0.8}
+            onMouseOut={e => e.currentTarget.style.opacity = 1}
+          >
+            <LogOut size={18} /> Keluar
+          </button>
+        </div>
       </div>
 
       {/* CATEGORY MANAGER */}
@@ -463,8 +578,8 @@ export default function AdminDashboard() {
           {categories.map(cat => {
             const isSelected = selectedCategoryFilters.includes(cat.name);
             return (
-              <div 
-                key={cat.id} 
+              <div
+                key={cat.id}
                 className="category-pill"
                 onClick={() => setSelectedCategoryFilters(prev => prev.includes(cat.name) ? prev.filter(n => n !== cat.name) : [...prev, cat.name])}
                 style={{
@@ -475,7 +590,7 @@ export default function AdminDashboard() {
                 }}
               >
                 {cat.name}
-                <button 
+                <button
                   onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat); }}
                   style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: isSelected ? 'var(--bg-color)' : 'red', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4px' }}
                 >
@@ -498,11 +613,11 @@ export default function AdminDashboard() {
           <button
             type="submit"
             disabled={isSubmittingCategory}
-            style={{ 
-              flexShrink: 0, whiteSpace: 'nowrap', 
-              background: 'var(--text-primary)', color: 'var(--bg-color)', 
-              border: 'none', padding: '10px 24px', borderRadius: '999px', 
-              fontFamily: 'Outfit, sans-serif', fontWeight: 600, 
+            style={{
+              flexShrink: 0, whiteSpace: 'nowrap',
+              background: 'var(--text-primary)', color: 'var(--bg-color)',
+              border: 'none', padding: '10px 24px', borderRadius: '999px',
+              fontFamily: 'Outfit, sans-serif', fontWeight: 600,
               cursor: isSubmittingCategory ? 'not-allowed' : 'pointer',
               transition: 'opacity 0.2s'
             }}
