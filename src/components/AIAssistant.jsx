@@ -51,16 +51,24 @@ export default function AIAssistant() {
     localStorage.setItem('kiokilho_ai_chat', JSON.stringify(messages));
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  const handleSend = async (textToSend) => {
+    const messageContent = typeof textToSend === 'string' ? textToSend : input;
+    if (!messageContent.trim()) return;
 
-    const userMessage = input.trim();
+    const userMessage = messageContent.trim();
     setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
-    setInput('');
+    if (messageContent === input) {
+      setInput('');
+    }
     setIsLoading(true);
 
     try {
       const systemInstruction = `Kamu adalah asisten virtual Kiokilho, brand tas goni premium di Indonesia. Jawab pertanyaan pengguna dengan gaya bahasa yang elegan, ramah, dan profesional. Selalu bantu pengguna menemukan produk tas goni yang tepat. Untuk informasi lebih detail mengenai apa pun, kamu WAJIB mengarahkan pengguna untuk chat ke nomor WhatsApp kami di 081234567890 (dengan menyebut nama Mbak Vera). SANGAT PENTING 1: Kamu HANYA diizinkan untuk membahas topik seputar Kiokilho, produk tas, eco-fashion, dan pesanan. Jika ditanya di luar itu, jawab: 'Maaf, aku hanya bisa menjawab seputar produk Kiokilho.'
+
+Informasi Perusahaan (Gunakan ini jika ditanya tentang lokasi, asal, legalitas, atau keamanan bertransaksi):
+- Alamat Fisik / Toko: Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Sambirejo, Kec. Prambanan, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55572 (Berada di kawasan wisata Candi Prambanan).
+- Legalitas Usaha: Kiokilho adalah bisnis resmi berbadan hukum yang terdaftar dengan Nomor Induk Berusaha (NIB) 2104220054682. Bertransaksi dengan kami dijamin aman dan terpercaya 100%.
+- Layanan & Pembayaran: Kami melayani pengiriman pesanan ke seluruh wilayah Indonesia (online/non-fisik) dan juga melayani kunjungan langsung ke toko fisik kami. Kami mendukung semua metode pembayaran (All Payment) untuk kemudahan transaksi Anda.
 
 Berikut adalah daftar produk terkini beserta harganya:
 ${dbProducts.map(p => `- Nama: ${p.name}, Kategori: ${p.category}, Harga Jual: ${p.price}${p.original_price ? `, Harga Asli (Sebelum Diskon): ${p.original_price}` : ''}, Ukuran/Dimensi: ${p.dimensions || 'Tidak ada info ukuran'}, Deskripsi: ${p.description}`).join('\n')}
@@ -280,12 +288,70 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
               </div>
             </div>
 
+            {/* Recommendation Chips */}
+            <div style={{
+              padding: '0.8rem 1rem',
+              background: '#fafafa',
+              borderTop: '1px solid var(--border-color)',
+              display: 'flex',
+              gap: '0.5rem',
+              overflowX: 'auto',
+              whiteSpace: 'nowrap',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
+            }}>
+              <style>{`
+                .ai-chips::-webkit-scrollbar { display: none; }
+              `}</style>
+              {[
+                "Apa tas yang paling laris?",
+                "Rekomendasi tas ransel?",
+                "Berapa harga Urban Sling?",
+                "Tas terbuat dari bahan apa?",
+                "Apakah bahan goninya tahan air?",
+                "Bagaimana cara perawatannya?",
+                "Berapa lama pengiriman?",
+                "Apakah ada toko fisik?"
+              ].map((q, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSend(q)}
+                  className="ai-chips"
+                  style={{
+                    padding: '8px 14px',
+                    background: '#ffffff',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '999px',
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    fontFamily: 'Outfit, sans-serif',
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--accent-color)';
+                    e.currentTarget.style.color = 'var(--accent-color)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-color)';
+                    e.currentTarget.style.color = 'var(--text-secondary)';
+                  }}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+
             {/* Input Area */}
             <div style={{
               padding: '1rem',
               background: '#ffffff',
               borderTop: '1px solid var(--border-color)',
               display: 'flex',
+              alignItems: 'center',
               gap: '0.5rem'
             }}>
               <input
@@ -321,7 +387,7 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
                   flexShrink: 0
                 }}
               >
-                <Send size={18} style={{ marginLeft: '3px' }} />
+                <Send size={18} />
               </button>
             </div>
           </motion.div>
