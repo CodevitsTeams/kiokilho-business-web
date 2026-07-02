@@ -209,6 +209,7 @@ button:hover {
     overflow-y: auto !important;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    max-height: 85vh !important;
   }
   .product-modal::-webkit-scrollbar {
     display: none;

@@ -23,7 +23,7 @@ export default function CartSidebar() {
       text += `\n*Total Nilai Pesanan: ${formatPrice(totalPrice)}*\n\nApakah pesanan saya bisa segera diproses?`;
     }
     
-    window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/6281226841755?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (

@@ -44,7 +44,7 @@ export default function Navbar() {
     }
     
     const waText = `Hai kak selamat ${greeting}, aku boleh tanya-tanya tentang produk Kiokilho?`;
-    return `https://wa.me/6281234567890?text=${encodeURIComponent(waText)}`;
+    return `https://wa.me/6281226841755?text=${encodeURIComponent(waText)}`;
   };
 
   return (
