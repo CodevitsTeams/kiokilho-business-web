@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 export default function Footer() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const { data, error } = await supabase.from('products').select('id, name').limit(4);
+        if (!error && data) {
+          setProducts(data);
+        }
+      } catch (err) {
+        console.error("Error loading products for footer:", err);
+      }
+    }
+    loadProducts();
+  }, []);
+
   return (
     <footer style={{ 
       background: 'var(--surface-color)', 
@@ -18,10 +35,16 @@ export default function Footer() {
           <div>
             <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '0.9rem' }}>Belanja Produk</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              <li><Link to="/products?q=Tote" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>Classic Tote</Link></li>
-              <li><Link to="/products?q=Sling" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>Urban Sling</Link></li>
-              <li><Link to="/products?q=Pack" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>Explorer Pack</Link></li>
-              <li><Link to="/products?q=Aksesoris" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>Aksesoris</Link></li>
+              {products.map((prod) => (
+                <li key={prod.id}>
+                  <Link to={`/products?q=${encodeURIComponent(prod.name)}`} style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>
+                    {prod.name}
+                  </Link>
+                </li>
+              ))}
+              {products.length === 0 && (
+                <li><span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Memuat...</span></li>
+              )}
             </ul>
           </div>
           <div>

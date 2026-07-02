@@ -190,10 +190,10 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
             transition={{ duration: 0.2 }}
             style={{
               position: 'fixed',
-              bottom: 'clamp(20px, 10vh, 100px)',
+              bottom: 'clamp(15px, 5vh, 100px)',
               right: 'clamp(10px, 3vw, 30px)',
               width: 'clamp(300px, calc(100vw - 20px), 360px)',
-              height: 'clamp(450px, calc(100vh - 120px), 520px)',
+              height: 'clamp(500px, calc(100vh - 85px), 580px)',
               background: '#ffffff',
               borderRadius: '24px',
               boxShadow: '0 10px 40px rgba(0,0,0,0.15)',

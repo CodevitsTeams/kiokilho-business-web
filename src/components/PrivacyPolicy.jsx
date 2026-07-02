@@ -43,12 +43,12 @@ export default function PrivacyPolicy() {
               Kami menerapkan standar keamanan industri tertinggi untuk menjaga kerahasiaan informasi pribadi Anda. Semua transaksi pembayaran diproses melalui penyedia gateway terenkripsi (SSL) yang aman, dan informasi perbankan Anda tidak pernah disimpan di server internal kami.
             </p>
 
-            <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>4. Peringatan Penipuan & Transaksi Resmi</h3>
+            <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>4. Peringatan Penipuan dan Transaksi Resmi</h3>
             <div style={{ background: 'rgba(255, 0, 0, 0.03)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,0,0,0.1)' }}>
               <p style={{ margin: 0, fontWeight: 500, color: 'var(--text-primary)' }}>
                 <strong>PENTING:</strong> Segala bentuk transaksi resmi Kiokilho HANYA dilakukan melalui situs web ini (<strong>www.kiokilho.com</strong>) atau melalui saluran komunikasi resmi yang tercantum di situs ini. 
                 <br/><br/>
-                Kami <strong>tidak bertanggung jawab secara hukum maupun finansial</strong> atas segala kerugian material ataupun imaterial yang diakibatkan oleh penipuan, transaksi palsu, atau pembelian yang dilakukan di luar platform resmi kami (seperti melalui akun media sosial palsu, *marketplace* pihak ketiga yang tidak terafiliasi, atau tautan mencurigakan). Mohon untuk selalu berhati-hati dan memverifikasi sumber sebelum melakukan pembayaran.
+                Kami <strong>tidak bertanggung jawab secara hukum maupun finansial</strong> atas segala kerugian material ataupun imaterial yang diakibatkan oleh penipuan, transaksi palsu, atau pembelian yang dilakukan di luar platform resmi kami (seperti melalui akun media sosial palsu, <strong>marketplace</strong> pihak ketiga yang tidak terafiliasi, atau tautan mencurigakan). Mohon untuk selalu berhati-hati dan memverifikasi sumber sebelum melakukan pembayaran.
               </p>
             </div>
 

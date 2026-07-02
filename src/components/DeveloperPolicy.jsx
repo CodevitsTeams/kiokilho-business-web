@@ -60,7 +60,22 @@ export default function DeveloperPolicy() {
 
             <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>4. Pelaporan Celah Keamanan (Bug Bounty)</h3>
             <p>
-              Jika Anda merupakan pakar keamanan siber atau peneliti yang menemukan celah kerentanan (<em>vulnerability</em>) pada sistem kami, kami sangat menghargai laporan Anda yang dilakukan secara etis. Silakan laporkan temuan teknis Anda secara langsung ke email bisnis kami (<strong>business@codevits.com</strong>) sebelum mempublikasikannya ke ruang publik. Eksploitasi celah keamanan untuk tujuan destruktif akan dilaporkan secara tegas ke otoritas siber berwenang.
+              Jika Anda merupakan pakar keamanan siber atau peneliti yang menemukan celah kerentanan (<em>vulnerability</em>) pada sistem kami, kami sangat menghargai laporan Anda yang dilakukan secara etis. Silakan laporkan temuan teknis Anda secara langsung ke email bisnis kami (<strong>privacy@codevits.com</strong>) sebelum mempublikasikannya ke ruang publik. Eksploitasi celah keamanan untuk tujuan destruktif akan dilaporkan secara tegas ke otoritas siber berwenang.
+            </p>
+
+            <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>5. Regulasi Penggunaan AI Assistant</h3>
+            <p>
+              Sistem AI Assistant yang terintegrasi di platform ini menggunakan model pembelajaran mesin canggih yang dirancang untuk memberikan informasi terkait produk. Algoritma AI dikonfigurasi secara ketat untuk tidak mengumpulkan, menyimpan, atau mengekstraksi data sensitif pengguna (seperti detail kartu kredit atau kata sandi) selama percakapan. Segala bentuk rekayasa prompt (<em>prompt injection</em>) atau upaya penyalahgunaan bot untuk aktivitas di luar koridor bisnis Kiokilho sangat dilarang.
+            </p>
+
+            <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>6. Pengumpulan Data Analitik (Telemetry and Cookies)</h3>
+            <p>
+              Untuk tujuan optimalisasi performa dan analisis metrik pengguna, infrastruktur kami secara pasif mengumpulkan data telemetri non-personal melalui penggunaan <em>Cookies</em> dan <em>Local Storage</em>. Data teknis yang dikumpulkan (seperti tipe peramban, durasi sesi, dan interaksi antarmuka) sepenuhnya dianonimkan (<em>anonymized</em>) dan diproses secara internal tanpa melibatkan broker data pihak ketiga.
+            </p>
+
+            <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: 'var(--text-primary)', fontWeight: 600 }}>7. Kepatuhan Standar Privasi Data</h3>
+            <p>
+              Sebagai arsitek platform, PT Codevits Innovation Indonesia merancang arsitektur basis data yang tunduk pada kerangka kerja privasi global serta mengacu pada Undang-Undang Pelindungan Data Pribadi (UU PDP) di Indonesia. Seluruh proses penyimpanan identitas pelanggan dilakukan di dalam <em>bucket</em> terenkripsi dengan protokol <em>Row Level Security (RLS)</em> yang sangat ketat untuk mencegah kebocoran data (<em>data breach</em>).
             </p>
           </div>
         </motion.div>
