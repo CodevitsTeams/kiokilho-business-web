@@ -7,54 +7,13 @@ import toteImg from '../assets/tote_bag.png';
 import slingImg from '../assets/sling_bag.png';
 import backpackImg from '../assets/backpack_bag.png';
 
-const allProducts = [
-  {
-    id: 1, name: "Kiokilho Classic Tote", price: "Rp 499.000", originalPrice: "Rp 799.000", category: "Tote Bag", image: toteImg,
-    images: [toteImg, slingImg, backpackImg],
-    tag: "Best Seller",
-    description: "Mahakarya tote bag ikonik dengan ruang penyimpanan luas. Dirajut dari serat goni pilihan dan sentuhan kain jumputan yang memancarkan pesona klasik nan elegan.",
-    longDescription: "Diciptakan untuk Anda yang menghargai keindahan dalam kesederhanaan. Kiokilho Classic Tote dibuat secara manual oleh pengrajin lokal berbakat yang mendedikasikan lebih dari 72 jam pengerjaan untuk setiap tasnya. Serat goni premium yang digunakan tidak hanya ramah lingkungan, tetapi juga memiliki durabilitas tinggi untuk pemakaian bertahun-tahun. Lapisan dalam menggunakan katun organik yang lembut, memastikan barang-barang berharga Anda tetap aman dari goresan.",
-    dimensions: "42cm (P) x 32cm (T) x 15cm (L)"
-  },
-  {
-    id: 2, name: "Urban Sling", price: "Rp 349.000", originalPrice: "Rp 599.000", category: "Sling Bag", image: slingImg,
-    images: [slingImg, backpackImg, toteImg],
-    tag: "New Arrival",
-    description: "Ringkas, dinamis, dan modis. Tas selempang yang dirancang untuk menemani gaya hidup urban Anda tanpa mengorbankan nilai estetika nusantara.",
-    longDescription: "Mobilitas tinggi menuntut kepraktisan tanpa mengorbankan gaya. Urban Sling hadir dengan desain asimetris yang ergonomis, memeluk tubuh Anda dengan sempurna saat berjalan melintasi hiruk pikuk kota. Dilengkapi dengan kompartemen tersembunyi yang tahan air untuk mengamankan gawai Anda. Aksen jumputan pada tali selempang menjadi statement piece yang membedakan Anda dari keramaian.",
-    dimensions: "22cm (P) x 28cm (T) x 8cm (L)"
-  },
-  {
-    id: 3, name: "Explorer Pack", price: "Rp 899.000", originalPrice: "Rp 1.299.000", category: "Backpack", image: backpackImg,
-    images: [backpackImg, toteImg, slingImg],
-    description: "Ransel premium yang tangguh namun tetap elegan. Menggabungkan material goni berdaya tahan tinggi dengan ornamen kulit & kuningan asli untuk petualangan yang penuh gaya.",
-    longDescription: "Sang pendamping setia untuk jiwa-jiwa petualang. Explorer Pack mendefinisikan ulang arti ransel alam dengan sentuhan luxury. Panel belakangnya dilengkapi bantalan ergonomis berongga untuk sirkulasi udara maksimal. Gesper kuningan solid yang dibuat khusus memastikan ransel tertutup rapat. Ruang utamanya yang luas siap menampung laptop 15 inci beserta esensial perjalanan Anda selama akhir pekan.",
-    dimensions: "30cm (P) x 45cm (T) x 18cm (L)"
-  },
-  {
-    id: 4, name: "Artisan Mini Tote", price: "Rp 399.000", category: "Tote Bag", image: toteImg,
-    images: [toteImg, slingImg, toteImg],
-    description: "Versi ringkas yang estetis. Sangat cocok untuk acara santai maupun formal, memberikan kesan mewah yang tak tertandingi di setiap jinjingan.",
-    longDescription: "Kecil namun memancarkan aura yang kuat. Artisan Mini Tote dirancang khusus bagi mereka yang hanya membawa esensial terpilih. Bentuknya yang terstruktur kaku memberikan siluet yang tajam dan elegan saat dijinjing. Perpaduan antara anyaman goni rapat dengan hardware emas menjadikannya pasangan sempurna untuk gaun malam maupun pakaian kasual akhir pekan Anda.",
-    dimensions: "25cm (P) x 20cm (T) x 10cm (L)"
-  },
-  {
-    id: 5, name: "City Crossbody", price: "Rp 429.000", category: "Sling Bag", image: slingImg,
-    images: [slingImg, toteImg, slingImg, backpackImg, toteImg, backpackImg],
-    description: "Desain ergonomis dengan siluet minimalis. Memberikan kebebasan bergerak sekaligus menyempurnakan penampilan kasual premium Anda.",
-    longDescription: "Harmoni antara desain minimalis kontemporer dengan kearifan lokal. City Crossbody menawarkan akses cepat ke barang-barang Anda melalui ritsleting mulus dari ujung ke ujung. Tali bahu kulit yang dapat disesuaikan memberikan kenyamanan tingkat tinggi. Kain jumputan yang melapisi bagian dalam tas memberikan kejutan visual yang menyenangkan setiap kali Anda membukanya.",
-    dimensions: "28cm (P) x 22cm (T) x 9cm (L)"
-  },
-  {
-    id: 6, name: "Nomad Rucksack", price: "Rp 949.000", category: "Backpack", image: backpackImg,
-    images: [backpackImg, slingImg, backpackImg],
-    description: "Kapasitas ekstra dengan desain berkelas. Diciptakan untuk jiwa petualang yang tetap mengutamakan penampilan sempurna dari material ramah lingkungan.",
-    longDescription: "Puncak mahakarya pengrajin Kiokilho. Nomad Rucksack adalah manifestasi dari kemewahan eco-friendly. Memiliki kompartemen modular yang dapat disesuaikan dengan kebutuhan Anda, mulai dari sesi fotografi hingga pendakian ringan. Kain goni pada tas ini telah melalui proses pelapisan khusus untuk menahan percikan air, memastikan barang berharga Anda terlindungi di segala kondisi cuaca.",
-    dimensions: "32cm (P) x 48cm (T) x 20cm (L)"
-  },
-];
+import { supabase } from '../lib/supabase';
 
 export default function AllProducts() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { addToCart } = useCart();
@@ -81,14 +40,36 @@ export default function AllProducts() {
     else if (cat === 'Backpack') navigate('/products?q=Backpack');
   };
 
-  const filteredProducts = allProducts.filter(p =>
+  const filteredProducts = products.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Ensure we start at top when navigating here
   useEffect(() => {
+    async function loadProducts() {
+      try {
+        const { data, error } = await supabase.from('products').select('*').order('id');
+        if (error) throw error;
+        
+        // Map database fields to the UI expected format
+        const formattedData = data.map(p => ({
+          ...p,
+          image: p.image_url,
+          images: p.images_array || [p.image_url],
+          originalPrice: p.original_price, // map snake_case to camelCase
+          longDescription: p.long_description // map snake_case to camelCase
+        }));
+        
+        setProducts(formattedData);
+      } catch (err) {
+        console.error("Error loading products:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProducts();
     window.scrollTo(0, 0);
   }, []);
 
@@ -149,7 +130,15 @@ export default function AllProducts() {
 
           {/* Product Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '3rem' }}>
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
+                <p style={{ fontSize: '1.2rem', fontFamily: 'Outfit, sans-serif' }}>Memuat koleksi dari Supabase...</p>
+              </div>
+            ) : error ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
+                <p style={{ fontSize: '1.2rem', fontFamily: 'Outfit, sans-serif', color: 'red' }}>Error memuat data: {error}</p>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
                 <h3 style={{ fontSize: '2rem', fontFamily: 'Playfair Display, serif', color: 'var(--text-primary)', marginBottom: '1rem' }}>Hasil tidak ditemukan</h3>
                 <p style={{ fontSize: '1.1rem', fontFamily: 'Outfit, sans-serif' }}>Maaf, kami tidak dapat menemukan koleksi untuk "{searchQuery}".</p>
