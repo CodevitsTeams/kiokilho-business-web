@@ -48,7 +48,7 @@ export default function CookieConsent() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
             <span style={{ fontSize: '1.5rem' }}>🍪</span>
-            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 600, color: '#ffffff' }}>Privasi & Penyimpanan</h4>
+            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 600, color: '#ffffff' }}>Privasi dan Penyimpanan</h4>
           </div>
           <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: '#a1a1a6', marginBottom: '20px' }}>
             Kami menggunakan cookie & penyimpanan lokal untuk mengamankan keranjang belanja Anda dan memastikan pengalaman berbelanja terbaik.
