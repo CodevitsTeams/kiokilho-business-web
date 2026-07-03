@@ -12,6 +12,13 @@ import Lenis from 'lenis';
 
 function ImageWithSkeleton({ src, alt, variants, transition, style, ...props }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = React.useRef(null);
+
+  React.useLayoutEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    }
+  }, [src]);
 
   // Merge external animate props with our loading opacity state
   const mergedAnimate = typeof props.animate === 'object'
@@ -35,6 +42,7 @@ function ImageWithSkeleton({ src, alt, variants, transition, style, ...props }) 
         />
       )}
       <motion.img
+        ref={imgRef}
         {...props}
         animate={mergedAnimate}
         variants={variants}
