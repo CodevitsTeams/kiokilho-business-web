@@ -257,3 +257,27 @@ button:hover {
   background: #1d1d1f;
   color: #ffffff;
 }
+
+/* Device specific footer address layouts */
+.address-mobile {
+  display: inline;
+}
+.address-ipad-only {
+  display: none;
+}
+.address-desktop {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .address-mobile { display: none; }
+  .address-ipad-only { display: inline; }
+  .address-desktop { display: none; }
+}
+
+@media (min-width: 1025px) {
+  .address-mobile { display: none; }
+  .address-ipad-only { display: none; }
+  .address-desktop { display: inline; }
+  .hide-on-desktop { display: none !important; }
+}
