@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import artisanImg from '../assets/arts.jpeg';
+import artisanImg from '../assets/arts3.png';
 
 export default function Craftsmanship() {
   return (
