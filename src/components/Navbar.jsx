@@ -7,6 +7,7 @@ import logoImg from '../assets/Kiokilho_transparent.png';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [isOverDarkSection, setIsOverDarkSection] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,6 +18,18 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      const darkSections = document.querySelectorAll('.dark-section');
+      let overDark = false;
+      const navHeight = 80;
+      
+      darkSections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= navHeight && rect.bottom >= navHeight) {
+          overDark = true;
+        }
+      });
+      setIsOverDarkSection(overDark);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -26,7 +39,15 @@ export default function Navbar() {
   const isHomePage = location.pathname === '/';
   const effectiveScrolled = isHomePage ? scrolled : true;
 
-  const textColor = effectiveScrolled ? 'var(--text-primary)' : '#ffffff';
+  const textColor = isOverDarkSection ? '#ffffff' : (effectiveScrolled ? 'var(--text-primary)' : '#ffffff');
+  
+  const navBackground = isOverDarkSection 
+    ? 'rgba(10, 10, 10, 0.7)' 
+    : (effectiveScrolled ? 'var(--glass-bg)' : 'transparent');
+    
+  const navBorder = isOverDarkSection 
+    ? '1px solid rgba(255,255,255,0.05)' 
+    : (effectiveScrolled ? '1px solid var(--border-color)' : '1px solid transparent');
 
   const getWhatsAppUrl = () => {
     const now = new Date();
@@ -52,7 +73,7 @@ export default function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className={`navbar ${effectiveScrolled ? 'glass border-bottom' : ''}`}
+      className="navbar"
       style={{
         position: 'fixed',
         top: 0,
@@ -61,10 +82,10 @@ export default function Navbar() {
         zIndex: 1000,
         padding: '1rem 2rem',
         transition: 'all 0.3s ease',
-        background: effectiveScrolled ? 'var(--glass-bg)' : 'transparent',
-        backdropFilter: effectiveScrolled ? 'blur(20px)' : 'none',
-        WebkitBackdropFilter: effectiveScrolled ? 'blur(20px)' : 'none',
-        borderBottom: effectiveScrolled ? '1px solid var(--border-color)' : '1px solid transparent',
+        background: navBackground,
+        backdropFilter: effectiveScrolled || isOverDarkSection ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: effectiveScrolled || isOverDarkSection ? 'blur(20px)' : 'none',
+        borderBottom: navBorder,
       }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -272,6 +293,12 @@ export default function Navbar() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', fontSize: '1.5rem', fontFamily: 'Playfair Display, serif', fontWeight: 500 }}>
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Beranda</Link>
               <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Koleksi</Link>
+              <Link to="/#filosofi" onClick={() => {
+                setIsMobileMenuOpen(false);
+                if (location.pathname === '/') {
+                  setTimeout(() => document.getElementById('filosofi')?.scrollIntoView({ behavior: 'smooth' }), 300);
+                }
+              }} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Filosofi</Link>
               <Link to="/#bespoke" onClick={() => {
                 setIsMobileMenuOpen(false);
                 if (location.pathname === '/') {

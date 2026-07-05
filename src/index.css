@@ -281,3 +281,13 @@ button:hover {
   .address-desktop { display: inline; }
   .hide-on-desktop { display: none !important; }
 }
+
+/* WhyUs Headline Responsiveness */
+.whyus-headline {
+  max-width: 900px;
+}
+@media (max-width: 1024px) {
+  .whyus-headline {
+    max-width: 650px !important;
+  }
+}

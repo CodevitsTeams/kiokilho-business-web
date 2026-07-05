@@ -4,7 +4,7 @@ import artisanImg from '../assets/arts3.png';
 
 export default function Craftsmanship() {
   return (
-    <section id="jumputan-art" style={{ padding: '4rem 0', background: '#0a0a0a', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
+    <section id="jumputan-art" className="dark-section" style={{ padding: '4rem 0', background: '#0a0a0a', color: '#ffffff', position: 'relative', overflow: 'hidden' }}>
       <div className="container">
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6rem' }}>
 

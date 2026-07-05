@@ -4,6 +4,7 @@ import Hero from './Hero';
 import PressMentions from './PressMentions';
 import BentoGrid from './BentoGrid';
 import Craftsmanship from './Craftsmanship';
+import WhyUs from './WhyUs';
 import ProductShowcase from './ProductShowcase';
 import Testimonials from './Testimonials';
 
@@ -29,6 +30,7 @@ export default function LandingPage() {
       <PressMentions />
       <BentoGrid />
       <Craftsmanship />
+      <WhyUs />
       <ProductShowcase />
       <Testimonials />
     </main>
