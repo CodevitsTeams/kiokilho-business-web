@@ -29,14 +29,14 @@ const whyUsData = [
   },
   {
     id: '05',
-    title: "PENGALAMAN BELANJA PERSONAL",
-    desc: "Proses yang mulus: Eksplorasi koleksi kami -> Konfirmasi pesanan secara personal melalui WhatsApp -> Lakukan pembayaran -> Mahakarya Anda dikirim dengan aman hingga ke tangan Anda.",
+    title: "SENTUHAN EKSKLUSIF",
+    desc: "Sebuah perjalanan yang dirancang khusus untuk Anda. Dari tahap konsultasi privat hingga pengiriman eksklusif, asisten personal kami siap mendampingi setiap langkah Anda mendapatkan mahakarya impian.",
     icon: <MessageCircle size={20} color="#e5d3b3" />
   },
   {
     id: '06',
-    title: "LAYANAN PURNA JUAL",
-    desc: "Hubungan kita tidak berakhir saat barang diterima. Kami menyediakan panduan perawatan dan dukungan perbaikan untuk memastikan mahakarya Anda bertahan melintasi generasi.",
+    title: "JAMINAN PARIPURNA",
+    desc: "Hubungan kita tidak berakhir saat karya diterima. Kami mendedikasikan panduan perawatan khusus dan dukungan penuh untuk memastikan mahakarya Anda tetap memukau melintasi generasi.",
     icon: <ShieldCheck size={20} color="#e5d3b3" />
   }
 ];
@@ -45,13 +45,13 @@ export default function WhyUs() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <section 
+    <section
       id="filosofi"
       className="dark-section"
-      style={{ 
-        padding: 'clamp(4rem, 10vw, 10rem) 0', 
-        background: '#0a0a0a', 
-        color: '#ffffff', 
+      style={{
+        padding: 'clamp(4rem, 10vw, 10rem) 0',
+        background: '#0a0a0a',
+        color: '#ffffff',
         position: 'relative'
       }}
     >
@@ -59,7 +59,7 @@ export default function WhyUs() {
         {`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');`}
       </style>
       <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        
+
         {/* Header Section */}
         <div style={{ marginBottom: '6rem' }}>
           <motion.span
@@ -86,8 +86,8 @@ export default function WhyUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2 }}
-            style={{ 
-              fontSize: 'clamp(2rem, 4vw, 3.2rem)', 
+            style={{
+              fontSize: 'clamp(2rem, 4vw, 3.2rem)',
               fontFamily: '"Cormorant Garamond", serif',
               fontStyle: 'italic',
               fontWeight: 300,
@@ -104,7 +104,7 @@ export default function WhyUs() {
         <div style={{ borderTop: '1px solid #222' }}>
           {whyUsData.map((item, index) => {
             const isActive = hoveredIndex === index;
-            
+
             return (
               <motion.div
                 key={item.id}
@@ -126,8 +126,8 @@ export default function WhyUs() {
                 {/* Background Hover Glow Effect */}
                 <motion.div
                   initial={false}
-                  animate={{ 
-                    opacity: isActive ? 1 : 0 
+                  animate={{
+                    opacity: isActive ? 1 : 0
                   }}
                   transition={{ duration: 0.6 }}
                   style={{
@@ -145,13 +145,13 @@ export default function WhyUs() {
 
                 <div style={{ position: 'relative', zIndex: 1 }}>
                   {/* Row Header */}
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'baseline', 
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
                     gap: 'clamp(1rem, 3vw, 2rem)'
                   }}>
-                    <span style={{ 
-                      fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
+                    <span style={{
+                      fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                       fontFamily: 'Outfit, sans-serif',
                       color: isActive ? '#e5d3b3' : '#444',
                       transition: 'color 0.5s ease',
@@ -161,9 +161,9 @@ export default function WhyUs() {
                     }}>
                       {item.id}
                     </span>
-                    <h3 style={{ 
-                      fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', 
-                      fontFamily: 'Outfit, sans-serif', 
+                    <h3 style={{
+                      fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+                      fontFamily: 'Outfit, sans-serif',
                       fontWeight: 300,
                       letterSpacing: '0.05em',
                       color: isActive ? '#fff' : '#666',
@@ -184,15 +184,15 @@ export default function WhyUs() {
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         style={{ overflow: 'hidden' }}
                       >
-                        <div className="accordion-content-inner" style={{ 
-                          paddingTop: '2rem', 
+                        <div className="accordion-content-inner" style={{
+                          paddingTop: '2rem',
                           paddingLeft: 'clamp(0px, 5vw, calc(60px + 2rem))',
                           maxWidth: '800px',
                           display: 'flex',
                           gap: '1.5rem',
                           alignItems: 'flex-start'
                         }}>
-                          <div style={{ 
+                          <div style={{
                             padding: '0.75rem',
                             border: '1px solid rgba(229, 211, 179, 0.2)',
                             borderRadius: '50%',
@@ -201,9 +201,9 @@ export default function WhyUs() {
                           }}>
                             {item.icon}
                           </div>
-                          <p style={{ 
-                            fontSize: 'clamp(1rem, 3vw, 1.15rem)', 
-                            lineHeight: 1.8, 
+                          <p style={{
+                            fontSize: 'clamp(1rem, 3vw, 1.15rem)',
+                            lineHeight: 1.8,
                             color: '#a1a1a6',
                             fontFamily: 'Playfair Display, serif',
                             fontStyle: 'italic',
