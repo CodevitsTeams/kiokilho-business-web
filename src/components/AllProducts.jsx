@@ -191,7 +191,7 @@ export default function AllProducts() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontFamily: 'Playfair Display, serif', marginBottom: '1rem' }}
+              style={{ fontSize: isDesktop ? 'clamp(2.6rem, 6vw, 4rem)' : 'clamp(2rem, 6vw, 4rem)', fontFamily: 'Playfair Display, serif', marginBottom: '1rem' }}
             >
               Koleksi Eksklusif
             </motion.h1>
@@ -199,9 +199,11 @@ export default function AllProducts() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}
+              style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}
             >
-              Temukan mahakarya yang sesuai dengan karakter Anda. Setiap tas adalah cerita yang siap Anda bawa.
+              {isDesktop 
+                ? "Eksplorasi perpaduan sempurna antara keindahan alam dan dedikasi tangan artisan. Setiap mahakarya diciptakan secara eksklusif untuk menyuarakan pesona, identitas, dan karakter Anda." 
+                : "Mahakarya artisan dari serat alam, dirajut sempurna untuk melengkapi pesona gaya eksklusif Anda."}
             </motion.p>
           </div>
 

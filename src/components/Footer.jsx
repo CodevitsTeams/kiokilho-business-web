@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Globe, Mail, Sparkles } from 'lucide-react';
+import { Globe, Mail, Sparkles, MapPin, Phone } from 'lucide-react';
 
 export default function Footer() {
   const [products, setProducts] = useState([]);
@@ -86,7 +86,7 @@ export default function Footer() {
                 </li>
               ))}
               {products.length > 0 && products.length < 5 && fallbackCategory && (
-                <li><Link to={`/products?category=${encodeURIComponent(fallbackCategory.name)}`} style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>{fallbackCategory.name} Categories</Link></li>
+                <li><Link to={`/products?category=${encodeURIComponent(fallbackCategory.name)}`} style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>{fallbackCategory.name} Collection</Link></li>
               )}
               {products.length === 0 && (
                 <li><span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Memuat...</span></li>
@@ -107,16 +107,16 @@ export default function Footer() {
             <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '0.9rem' }}>Informasi Bisnis</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.5', display: 'flex', gap: '0.5rem' }}>
-                <span>📍</span>
+                <MapPin size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
                 <span className="address-mobile"><strong>Kiokilho Handcraft &amp; Ecoprint</strong><br />Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Sambirejo, Kec. Prambanan, Sleman, Provinsi Daerah Istimewa Yogyakarta 55572</span>
                 <span className="address-ipad-only"><strong>Kiokilho Handcraft &amp; Ecoprint</strong><br />Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02<br />Dowangsari, Sambirejo, Kec. Prambanan, Sleman,<br />Provinsi Daerah Istimewa Yogyakarta 55572</span>
                 <span className="address-desktop"><strong>Kiokilho Handcraft &amp; Ecoprint</strong><br />Jl. Raya Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Desa/Kelurahan Sambirejo, Kec. Prambanan, Sleman, DIY 55572</span>
               </li>
-              <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', gap: '0.5rem' }}>
-                <span>📧</span> <a href="mailto:kiokilho@gmail.com" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>kiokilho@gmail.com</a>
+              <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <Mail size={16} style={{ flexShrink: 0 }} /> <a href="mailto:kiokilho@gmail.com" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>kiokilho@gmail.com</a>
               </li>
-              <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', gap: '0.5rem' }}>
-                <span>📞</span> <a href="tel:+6281226841755" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>+62 812-2684-1755</a>
+              <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <Phone size={16} style={{ flexShrink: 0 }} /> <a href="tel:+6281226841755" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>+62 812-2684-1755</a>
               </li>
             </ul>
           </div>

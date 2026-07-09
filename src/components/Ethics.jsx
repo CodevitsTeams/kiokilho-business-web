@@ -15,7 +15,7 @@ export default function Ethics() {
             <p>Transparansi dan tanggung jawab lingkungan bukanlah strategi pemasaran bagi kami, melainkan pondasi dari setiap keputusan bisnis yang kami buat.</p>
             <p><strong>Pengadaan Material yang Etis:</strong> Kami bermitra langsung dengan perkebunan rami dan pengrajin lokal untuk memastikan bahwa tidak ada deforestasi yang terlibat dalam rantai pasokan kami, serta memastikan upah yang adil di atas standar bagi setiap pengrajin.</p>
             <p><strong>Operasional Karbon Netral:</strong> Mulai dari bengkel pembuatan hingga logistik pengiriman, kami berupaya keras meminimalkan jejak karbon. Kami menyumbangkan 5% dari setiap penjualan bersih ke program pelestarian terumbu karang di kepulauan Indonesia.</p>
-            <p>Kami meyakini bahwa kemewahan yang sejati seharusnya tidak mengorbankan masa depan bumi.</p>
+            <p>Kami meyakini bahwa kemewahan yang sejati seharusnya tidak mengorbankan masa depan bumi. Melainkan, ia harus hadir sebagai wujud penghormatan kita terhadap harmoni dan kelestarian alam itu sendiri.</p>
           </div>
         </motion.div>
       </div>

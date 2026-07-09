@@ -109,6 +109,17 @@ export default function Navbar() {
           <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>Beranda</Link>
           <Link to="/products" style={{ color: 'inherit', textDecoration: 'none' }}>Koleksi</Link>
           <Link 
+            to="/#filosofi" 
+            onClick={() => {
+              if (location.pathname === '/') {
+                document.getElementById('filosofi')?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            Filosofi
+          </Link>
+          <Link 
             to="/#bespoke" 
             onClick={() => {
               if (location.pathname === '/') {
@@ -128,7 +139,7 @@ export default function Navbar() {
             }}
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            Jumputan Art
+            Jumputan Heritage
           </Link>
           <Link 
             to="/#testimonial" 
@@ -310,7 +321,7 @@ export default function Navbar() {
                 if (location.pathname === '/') {
                   setTimeout(() => document.getElementById('jumputan-art')?.scrollIntoView({ behavior: 'smooth' }), 300);
                 }
-              }} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Jumputan Art</Link>
+              }} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>Jumputan Heritage</Link>
               <Link to="/#testimonial" onClick={() => {
                 setIsMobileMenuOpen(false);
                 if (location.pathname === '/') {

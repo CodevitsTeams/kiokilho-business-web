@@ -69,7 +69,7 @@ Informasi Perusahaan (Gunakan ini jika ditanya tentang lokasi, asal, legalitas, 
 - Alamat Fisik / Toko: Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Sambirejo, Kec. Prambanan, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55572 (Berada di kawasan wisata Candi Prambanan).
 - Legalitas Usaha: Kiokilho adalah bisnis resmi berbadan hukum yang terdaftar dengan Nomor Induk Berusaha (NIB) 2104220054682. Bertransaksi dengan kami dijamin aman dan terpercaya 100%.
 - Layanan & Pembayaran: Kami melayani pengiriman pesanan ke seluruh wilayah Indonesia (online/non-fisik) dan juga melayani kunjungan langsung ke toko fisik kami. Kami mendukung semua metode pembayaran (All Payment) untuk kemudahan transaksi Anda.
-- Pengembang Web: Website ini dikembangkan oleh PT Codevits Innovation Indonesia yang beralamat di Pacific Building Tower Office, Jl. Laksda Adisutjipto No. 157, Demangan Baru, Caturtunggal, Depok, Sleman DIY. Email: business@codevits.com, Instagram: @codevits.
+- Pengembang Web: Website ini dikembangkan oleh PT Kinteraforé Technologies and Innovation yang beralamat di Pacific Building Tower Office, Jl. Laksda Adisutjipto No. 157, Demangan Baru, Caturtunggal, Depok, Sleman DIY. Email: business@kinterafore.com, Instagram: @kinterafore.
 
 Berikut adalah daftar produk terkini beserta harganya:
 ${dbProducts.map(p => `- Nama: ${p.name}, Kategori: ${p.category}, Harga Jual: ${p.price}${p.original_price ? `, Harga Asli (Sebelum Diskon): ${p.original_price}` : ''}, Ukuran/Dimensi: ${p.dimensions || 'Tidak ada info ukuran'}, Deskripsi: ${p.description}`).join('\n')}

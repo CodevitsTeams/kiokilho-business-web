@@ -63,15 +63,16 @@ export default function Hero() {
       kicker: "Eksklusif & Autentik",
       title1: "Setiap jahitan",
       title2: "membawa cerita.",
-      lead: "Dirajut secara manual dengan penuh dedikasi, memadukan ketangguhan serat goni dengan keindahan motif jumputan Nusantara."
+      lead: "Dirajut secara manual dengan penuh dedikasi, memadukan ketangguhan serat goni dengan keindahan motif jumputan Nusantara.",
+      leadDesktop: "Eksplorasi sempurna antara keuletan serat goni dan keelokan mahakarya jumputan Nusantara. Dirajut penuh dedikasi oleh tangan artisan kami untuk menghadirkan keanggunan eksklusif."
     },
     {
       image: lsp2,
       mobileImage: ptr2,
       kicker: "Elegan & Mewah",
-      title1: "Simfoni serat",
-      title2: "natural.",
-      lead: "Mewujudkan keanggunan sejati yang lahir dari material alam, disempurnakan oleh keterampilan tangan perajin lokal yang teliti di setiap detailnya."
+      title1: "Simfoni harmoni",
+      title2: "serat natural.",
+      lead: "Mewujudkan keanggunan sejati yang lahir dari material alam, disempurnakan oleh keterampilan tangan perajin lokal yang teliti di setiap detailnya untuk menyempurnakan pesona gaya Anda."
     },
     {
       image: lsp3,
@@ -79,7 +80,7 @@ export default function Hero() {
       kicker: "Ikonik & Klasik",
       title1: "Definisi baru",
       title2: "kemewahan.",
-      lead: "Sebuah mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang tak lekang oleh waktu."
+      lead: "Sebuah mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang tak lekang oleh waktu, menemani setiap momen berharga."
     },
     {
       image: lsp4,
@@ -87,7 +88,7 @@ export default function Hero() {
       kicker: "Simbol Status",
       title1: "Menyatu dengan",
       title2: "gaya hidup.",
-      lead: "Bukan sekadar tas, melainkan cerminan apresiasi Anda terhadap karya seni bernilai tinggi di setiap langkah. Hadir untuk menyempurnakan gaya eksklusif Anda."
+      lead: "Bukan sekadar tas, melainkan cerminan apresiasi terhadap karya seni bernilai tinggi. Hadir untuk menyempurnakan gaya eksklusif dengan sentuhan kemewahan sejati."
     },
     {
       image: lsp5,
@@ -99,10 +100,14 @@ export default function Hero() {
     }
   ];
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth <= 1024);
+    };
     window.addEventListener('resize', handleResize);
 
     const timer = setInterval(() => {
@@ -202,7 +207,7 @@ export default function Hero() {
                 className="lead"
                 style={{ marginBottom: '0', color: '#f5f5f7' }}
               >
-                {slides[currentSlide].lead}
+                {isTablet ? slides[currentSlide].lead : (slides[currentSlide].leadDesktop || slides[currentSlide].lead)}
               </p>
             </motion.div>
           </AnimatePresence>
