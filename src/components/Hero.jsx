@@ -18,37 +18,37 @@ const slide5Variants = [
     kicker: "Kebanggaan Bangsa",
     title1: "Mahakarya",
     title2: "warisan bangsa.",
-    lead: "Merajut karsa dan rasa dalam satu harmoni. Menjadikannya warisan kebanggaan bangsa yang melekat indah di setiap langkah keanggunan Anda."
+    lead: "Merajut karsa dan rasa dalam satu harmoni. Menjadikannya warisan kebanggaan bangsa yang melekat di setiap langkah keanggunan Anda."
   },
   {
     kicker: "Ruh Tradisi",
     title1: "Napas budaya,",
     title2: "jiwa Nusantara.",
-    lead: "Lebih dari sekadar rupa, ia adalah denyut nadi tradisi yang terus berdetak. Membawa ruh kearifan lokal berpadu memukau di atas panggung gaya modern."
+    lead: "Lebih dari rupa, ia denyut nadi tradisi yang terus berdetak. Membawa ruh kearifan lokal berpadu memukau di atas panggung gaya modern."
   },
   {
     kicker: "Pesona Magis",
     title1: "Guratan pesona",
     title2: "bumi pertiwi.",
-    lead: "Kecantikan alam dan keelokan budaya Nusantara tersirat sempurna di setiap silang jalinannya. Menghadirkan pesona magis yang senantiasa memikat."
+    lead: "Kecantikan dan keelokan budaya Nusantara tersirat di setiap silang jalinannya. Menghadirkan pesona magis yang senantiasa memikat."
   },
   {
     kicker: "Jejak Abadi",
     title1: "Merajut jejak",
     title2: "sang waktu.",
-    lead: "Saksi bisu dedikasi tangan perajin dalam mengabadikan nilai-nilai luhur. Sebuah narasi keanggunan abadi yang melampaui batas hari dan dekade."
+    lead: "Saksi bisu dedikasi tangan perajin dalam mengabadikan nilai luhur. Sebuah narasi keanggunan yang melampaui batas hari dan dekade."
   },
   {
     kicker: "Estetika Klasik",
     title1: "Karya agung",
     title2: "lintas zaman.",
-    lead: "Dirancang bukan sekadar untuk tren sesaat, melainkan perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya."
+    lead: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya."
   },
   {
     kicker: "Keanggunan Murni",
     title1: "Lestari dalam",
     title2: "keanggunan.",
-    lead: "Menjaga api warisan budaya murni agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya paripurna Anda."
+    lead: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya paripurna Anda."
   }
 ];
 
@@ -64,7 +64,7 @@ export default function Hero() {
       title1: "Setiap jahitan",
       title2: "membawa cerita.",
       lead: "Dirajut secara manual dengan penuh dedikasi, memadukan ketangguhan serat goni dengan keindahan motif jumputan Nusantara.",
-      leadDesktop: "Eksplorasi sempurna antara keuletan serat goni dan keelokan mahakarya jumputan Nusantara. Dirajut penuh dedikasi oleh tangan artisan kami untuk menghadirkan keanggunan eksklusif."
+      leadDesktop: "Eksplorasi sempurna antara keuletan serat goni dan keelokan jumputan Nusantara. Dirajut penuh dedikasi oleh artisan untuk menghadirkan keanggunan eksklusif."
     },
     {
       image: lsp2,
@@ -73,7 +73,7 @@ export default function Hero() {
       title1: "Simfoni harmoni",
       title2: "serat natural.",
       lead: "Mewujudkan keanggunan sejati yang lahir dari material serat alam, diciptakan khusus untuk memancarkan identitas dan persona Anda.",
-      leadDesktop: "Mewujudkan keanggunan sejati yang lahir dari material alam, disempurnakan oleh keterampilan tangan perajin lokal yang teliti di setiap detailnya untuk menyempurnakan pesona gaya Anda."
+      leadDesktop: "Mewujudkan keanggunan sejati yang lahir dari material alam, disempurnakan oleh keterampilan perajin lokal yang teliti untuk menyempurnakan pesona gaya Anda."
     },
     {
       image: lsp3,
@@ -82,14 +82,14 @@ export default function Hero() {
       title1: "Definisi baru",
       title2: "kemewahan.",
       lead: "Mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menemani setiap momen berharga Anda.",
-      leadDesktop: "Sebuah mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang tak lekang oleh waktu, menemani setiap momen berharga."
+      leadDesktop: "Mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang menemani setiap momen berharga."
     },
     {
       image: lsp4,
       mobileImage: ptr4,
-      kicker: "Simbol Status",
-      title1: "Menyatu dengan",
-      title2: "gaya hidup.",
+      kicker: "Pesona Elite",
+      title1: "Simbol prestise",
+      title2: "kelas atas.",
       lead: "Lebih dari sekadar tas, ia adalah cerminan apresiasi pada karya seni bernilai tinggi. Merajut gaya eksklusifitas dengan kemewahan sejati.",
       leadDesktop: "Bukan sekadar tas, melainkan cerminan apresiasi terhadap karya seni bernilai tinggi. Hadir untuk menyempurnakan gaya eksklusifitas dengan sentuhan kemewahan sejati."
     },
@@ -172,7 +172,9 @@ export default function Hero() {
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: isMobile ? 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 60%, #ffffff 100%)' : 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 60%, #ffffff 100%)',
+          background: isMobile
+            ? 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 60%, #ffffff 100%)'
+            : 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.5) 60%, #ffffff 100%)',
           zIndex: 1,
           pointerEvents: 'none'
         }}></div>
@@ -226,7 +228,7 @@ export default function Hero() {
                   hidden: { opacity: 0, y: 35, filter: 'blur(15px)' },
                   visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { type: 'spring', damping: 28, stiffness: 110, mass: 1.2 } }
                 }}
-                className="display-1"
+                className="display-1-5"
                 style={{ marginBottom: '1.5rem', color: '#ffffff', willChange: 'transform, opacity, filter' }}
               >
                 {slides[currentSlide].title1} <br /><span style={{ background: 'linear-gradient(135deg, #ffffff 0%, #e5d3b3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{slides[currentSlide].title2}</span>
@@ -237,8 +239,8 @@ export default function Hero() {
                   hidden: { opacity: 0, y: 25, filter: 'blur(10px)' },
                   visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { type: 'spring', damping: 25, stiffness: 120, mass: 1 } }
                 }}
-                className="lead"
-                style={{ marginBottom: '0', color: '#f5f5f7', willChange: 'transform, opacity, filter' }}
+                className=""
+                style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', marginBottom: '0', color: '#f5f5f7', willChange: 'transform, opacity, filter', maxWidth: isTablet ? '600px' : '700px', margin: '0 auto', lineHeight: 1.6, padding: '0 1rem' }}
               >
                 {isTablet ? slides[currentSlide].lead : (slides[currentSlide].leadDesktop || slides[currentSlide].lead)}
               </motion.p>
@@ -257,15 +259,15 @@ export default function Hero() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '16px',
+              gap: '12px',
               background: 'rgba(0, 0, 0, 0.25)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
               color: '#ffffff',
-              padding: '6px 6px 6px 24px',
+              padding: '5px 5px 5px 20px',
               borderRadius: '50px',
               border: '1px solid rgba(255, 255, 255, 0.25)',
-              fontSize: '1.05rem',
+              fontSize: '0.9rem',
               fontWeight: 500,
               fontFamily: 'Outfit, sans-serif',
               cursor: 'pointer',
@@ -287,15 +289,15 @@ export default function Hero() {
             <div style={{
               background: '#fdfbf7',
               color: '#1d1d1f',
-              width: '44px',
-              height: '44px',
+              width: '36px',
+              height: '36px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'transform 0.3s ease'
             }}>
-              <ArrowUpRight size={20} strokeWidth={2} />
+              <ArrowUpRight size={16} strokeWidth={2} />
             </div>
           </button>
         </motion.div>
