@@ -47,14 +47,14 @@ const slide5Variants = [
     title1: "Karya agung",
     title2: "lintas zaman.",
     lead: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya.",
-    leadMobile: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan generasi ke generasi berikutnya."
+    leadMobile: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya."
   },
   {
     kicker: "Keanggunan Murni",
     title1: "Lestari dalam",
     title2: "keanggunan.",
     lead: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya paripurna Anda.",
-    leadMobile: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya."
+    leadMobile: "Menjaga warisan budaya agar tak padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya."
   }
 ];
 
