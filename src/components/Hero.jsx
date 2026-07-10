@@ -96,8 +96,8 @@ export default function Hero() {
       kicker: "Pesona Elite",
       title1: "Simbol prestise",
       title2: "kelas atas.",
-      lead: "Lebih dari sekadar tas, ia adalah simbol apresiasi pada karya seni bernilai tinggi. Merajut gaya eksklusifitas dengan kemewahan sejati.",
-      leadDesktop: "Bukan sekadar tas, melainkan cerminan apresiasi terhadap karya seni bernilai tinggi. Hadir untuk menyempurnakan gaya eksklusifitas dengan sentuhan kemewahan sejati."
+      lead: "Lebih dari sekadar kriya, ia adalah simbol apresiasi karya seni bernilai tinggi. Merajut gaya eksklusifitas dengan kemewahan sejati.",
+      leadDesktop: "Bukan sekadar kriya, melainkan cerminan apresiasi terhadap karya seni bernilai tinggi. Hadir untuk menyempurnakan gaya eksklusifitas dengan sentuhan kemewahan sejati."
     },
     {
       image: lsp5,
