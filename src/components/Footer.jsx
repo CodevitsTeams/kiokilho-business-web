@@ -103,7 +103,7 @@ export default function Footer() {
               <li><Link to="/care" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textDecoration: 'none' }}>Perawatan Tas</Link></li>
             </ul>
           </div>
-          <div style={{ flex: '1 1 200px' }}>
+          <div className="footer-business-col" style={{ flex: '1 1 200px' }}>
             <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '0.9rem' }}>Informasi Bisnis</h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.5', display: 'flex', gap: '0.5rem' }}>
