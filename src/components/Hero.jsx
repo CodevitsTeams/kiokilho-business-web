@@ -81,7 +81,7 @@ export default function Hero() {
       kicker: "Ikonik & Klasik",
       title1: "Definisi baru",
       title2: "kemewahan.",
-      lead: "Mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menemani setiap momen berharga Anda.",
+      lead: "Mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menemani setiap momen berharga.",
       leadDesktop: "Mahakarya eksklusif yang mendefinisikan ulang standar kemewahan, dirancang khusus untuk menjadi teman setia Anda yang menemani setiap momen berharga."
     },
     {
