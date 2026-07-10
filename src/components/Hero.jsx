@@ -18,37 +18,43 @@ const slide5Variants = [
     kicker: "Kebanggaan Bangsa",
     title1: "Mahakarya",
     title2: "warisan bangsa.",
-    lead: "Merajut karsa dan rasa dalam satu harmoni. Menjadikannya warisan kebanggaan bangsa yang melekat di setiap langkah keanggunan Anda."
+    lead: "Merajut karsa dan rasa dalam satu harmoni. Menjadikannya warisan kebanggaan bangsa yang melekat di setiap langkah keanggunan Anda.",
+    leadMobile: "Merajut karsa dan rasa dalam satu harmoni. Menjadikannya warisan kebanggaan bangsa yang melekat di setiap langkah."
   },
   {
     kicker: "Ruh Tradisi",
     title1: "Napas budaya,",
     title2: "jiwa Nusantara.",
-    lead: "Lebih dari rupa, ia denyut nadi tradisi yang terus berdetak. Membawa ruh kearifan lokal berpadu memukau di atas panggung gaya modern."
+    lead: "Lebih dari rupa, ia denyut nadi tradisi yang terus berdetak. Membawa ruh kearifan lokal berpadu memukau di atas panggung gaya modern.",
+    leadMobile: "Lebih dari rupa, ia denyut nadi tradisi yang terus berdetak. Membawa ruh kearifan lokal berpadu memukau di panggung modern."
   },
   {
     kicker: "Pesona Magis",
     title1: "Guratan pesona",
     title2: "bumi pertiwi.",
-    lead: "Kecantikan dan keelokan budaya Nusantara tersirat di setiap silang jalinannya. Menghadirkan pesona magis yang senantiasa memikat."
+    lead: "Kecantikan dan keelokan budaya Nusantara tersirat di setiap silang jalinannya. Menghadirkan pesona magis yang senantiasa memikat.",
+    leadMobile: "Keelokan budaya Nusantara tersirat di setiap silang jalinannya. Menghadirkan pesona magis yang senantiasa memikat."
   },
   {
     kicker: "Jejak Abadi",
     title1: "Merajut jejak",
     title2: "sang waktu.",
-    lead: "Saksi bisu dedikasi tangan perajin dalam mengabadikan nilai luhur. Sebuah narasi keanggunan yang melampaui batas hari dan dekade."
+    lead: "Saksi bisu dedikasi tangan perajin dalam mengabadikan nilai luhur. Sebuah narasi keanggunan yang melampaui batas hari dan dekade.",
+    leadMobile: "Saksi bisu dedikasi tangan perajin dalam mengabadikan nilai luhur. Sebuah narasi keanggunan yang melampaui batas dekade."
   },
   {
     kicker: "Estetika Klasik",
     title1: "Karya agung",
     title2: "lintas zaman.",
-    lead: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya."
+    lead: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan dari satu generasi ke generasi berikutnya.",
+    leadMobile: "Dirancang bukan untuk tren sesaat, namun perayaan estetika tak lekang. Merawat warisan kebanggaan generasi ke generasi berikutnya."
   },
   {
     kicker: "Keanggunan Murni",
     title1: "Lestari dalam",
     title2: "keanggunan.",
-    lead: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya paripurna Anda."
+    lead: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya paripurna Anda.",
+    leadMobile: "Menjaga warisan budaya agar tak pernah padam. Membalutnya dengan aura kemewahan kelas atas yang meredefinisi gaya."
   }
 ];
 
@@ -99,7 +105,8 @@ export default function Hero() {
       kicker: slide5Variants[slide5VariantIndex].kicker,
       title1: slide5Variants[slide5VariantIndex].title1,
       title2: slide5Variants[slide5VariantIndex].title2,
-      lead: slide5Variants[slide5VariantIndex].lead
+      lead: slide5Variants[slide5VariantIndex].lead,
+      leadMobile: slide5Variants[slide5VariantIndex].leadMobile
     }
   ];
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -242,7 +249,7 @@ export default function Hero() {
                 className=""
                 style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', marginBottom: '0', color: '#f5f5f7', willChange: 'transform, opacity, filter', maxWidth: isTablet ? '600px' : '700px', margin: '0 auto', lineHeight: 1.6, padding: '0 1rem' }}
               >
-                {isTablet ? slides[currentSlide].lead : (slides[currentSlide].leadDesktop || slides[currentSlide].lead)}
+                {isMobile ? (slides[currentSlide].leadMobile || slides[currentSlide].lead) : (isTablet ? slides[currentSlide].lead : (slides[currentSlide].leadDesktop || slides[currentSlide].lead))}
               </motion.p>
             </motion.div>
           </AnimatePresence>
