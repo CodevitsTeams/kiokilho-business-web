@@ -53,7 +53,7 @@ export default function CookieConsent() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
             <span style={{ fontSize: '1.5rem' }}>🍪</span>
-            <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 600, color: '#ffffff' }}>Privasi dan Penyimpanan</h4>
+            <h4 style={{ margin: 0, fontSize: '1.28rem', fontWeight: 600, color: '#ffffff', letterSpacing: '0.01em' }}>Privasi dan Penyimpanan</h4>
           </div>
           <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: '#a1a1a6', marginBottom: '20px' }}>
             Kami menggunakan cookie & penyimpanan lokal untuk mengamankan keranjang belanja Anda dan memastikan pengalaman berbelanja terbaik.
@@ -116,27 +116,25 @@ export default function CookieConsent() {
             <motion.button
               onClick={handleDecline}
               whileHover={{ 
-                backgroundColor: 'rgba(248, 227, 222, 0.12)',
-                borderColor: 'rgba(248, 227, 222, 0.4)',
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                borderColor: 'rgba(248, 227, 222, 0.35)',
                 color: '#ffffff',
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25), 0 0 12px rgba(248, 227, 222, 0.15)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                 scale: 1.015,
                 y: -1
               }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.15, ease: 'easeOut' }}
               style={{
-                padding: '12px 22px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: '#d1d1d6',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                padding: '12px 24px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                color: 'rgba(255, 255, 255, 0.65)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '10px',
                 fontWeight: 500,
-                fontSize: '0.95rem',
+                fontSize: '0.92rem',
                 letterSpacing: '0.01em',
-                cursor: 'pointer',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)'
+                cursor: 'pointer'
               }}
             >
               Tolak
