@@ -20,6 +20,11 @@ export default function CookieConsent() {
     setIsVisible(false);
   };
 
+  const handleDecline = () => {
+    localStorage.setItem('kiokilho_cookie_consent', 'false');
+    setIsVisible(false);
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -54,30 +59,88 @@ export default function CookieConsent() {
             Kami menggunakan cookie & penyimpanan lokal untuk mengamankan keranjang belanja Anda dan memastikan pengalaman berbelanja terbaik.
           </p>
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button
+            <motion.button
               onClick={handleAccept}
+              initial="initial"
+              whileHover="hover"
+              whileTap={{ scale: 0.98 }}
+              variants={{
+                initial: {
+                  backgroundColor: '#ffffff',
+                  boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                  y: 0,
+                  scale: 1
+                },
+                hover: {
+                  backgroundColor: '#f8e3de',
+                  boxShadow: '0 8px 24px rgba(248, 227, 222, 0.4)',
+                  y: -1,
+                  scale: 1.015
+                }
+              }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               style={{
+                position: 'relative',
+                overflow: 'hidden',
                 flex: 1,
-                background: '#ffffff',
-                color: '#1d1d1f',
+                color: '#111111',
                 border: 'none',
-                padding: '10px 0',
-                borderRadius: '8px',
+                padding: '12px 0',
+                borderRadius: '10px',
                 fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease, background 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'scale(1.02)';
-                e.currentTarget.style.background = '#e5d3b3';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.background = '#ffffff';
+                fontSize: '0.95rem',
+                letterSpacing: '0.02em',
+                cursor: 'pointer'
               }}
             >
-              Mengerti & Setuju
-            </button>
+              {/* Shimmer Light Streak Effect */}
+              <motion.div
+                variants={{
+                  initial: { x: '-100%', opacity: 0 },
+                  hover: { x: '250%', opacity: 1 }
+                }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '60%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.85), transparent)',
+                  transform: 'skewX(-25deg)',
+                  pointerEvents: 'none'
+                }}
+              />
+              <span style={{ position: 'relative', zIndex: 1 }}>Mengerti & Setuju</span>
+            </motion.button>
+            <motion.button
+              onClick={handleDecline}
+              whileHover={{ 
+                backgroundColor: 'rgba(248, 227, 222, 0.12)',
+                borderColor: 'rgba(248, 227, 222, 0.4)',
+                color: '#ffffff',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25), 0 0 12px rgba(248, 227, 222, 0.15)',
+                scale: 1.015,
+                y: -1
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
+              style={{
+                padding: '12px 22px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                color: '#d1d1d6',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '10px',
+                fontWeight: 500,
+                fontSize: '0.95rem',
+                letterSpacing: '0.01em',
+                cursor: 'pointer',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)'
+              }}
+            >
+              Tolak
+            </motion.button>
           </div>
         </motion.div>
       )}

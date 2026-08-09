@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, ArrowRight } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, ArrowRight, Mail, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -69,7 +69,7 @@ Informasi Perusahaan (Gunakan ini jika ditanya tentang lokasi, asal, legalitas, 
 - Alamat Fisik / Toko: Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Sambirejo, Kec. Prambanan, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55572 (Berada di kawasan wisata Candi Prambanan).
 - Legalitas Usaha: Kiokilho adalah bisnis resmi berbadan hukum yang terdaftar dengan Nomor Induk Berusaha (NIB) 2104220054682. Bertransaksi dengan kami dijamin aman dan terpercaya 100%.
 - Layanan & Pembayaran: Kami melayani pengiriman pesanan ke seluruh wilayah Indonesia (online/non-fisik) dan juga melayani kunjungan langsung ke toko fisik kami. Kami mendukung semua metode pembayaran (All Payment) untuk kemudahan transaksi Anda.
-- Pengembang Web: Website ini dikembangkan oleh PT Kinterraforé Technologies and Innovation yang beralamat di Pacific Building Tower Office, Jl. Laksda Adisutjipto No. 157, Demangan Baru, Caturtunggal, Depok, Sleman DIY. Email: business@kinterratechnologies.com, Instagram: @kinterratechnologies.
+- Pengembang Web: Website ini dikembangkan oleh PT Kinterraforé Technologies and Innovation yang beralamat di Pacific Building Tower Office, Jl. Laksda Adisutjipto No. 157, Demangan Baru, Caturtunggal, Depok, Sleman DIY. Jika pengguna menanyakan email/kontak pengembang, WAJIB tuliskan tautan [Send Email](mailto:business@kinterratechnologies.com) LANGSUNG MENYATU secara INLINE di dalam kalimat (contoh: "...dapat menghubungi kami melalui [Send Email](mailto:business@kinterratechnologies.com) atau Instagram..."). DILARANG KERAS membuat baris baru/enter di atas maupun di bawah tautan tersebut! Instagram: @kinterratechnologies.
 
 Berikut adalah daftar produk terkini beserta harganya:
 ${dbProducts.map(p => `- Nama: ${p.name}, Kategori: ${p.category}, Harga Jual: ${p.price}${p.original_price ? `, Harga Asli (Sebelum Diskon): ${p.original_price}` : ''}, Ukuran/Dimensi: ${p.dimensions || 'Tidak ada info ukuran'}, Deskripsi: ${p.description}`).join('\n')}
@@ -91,18 +91,52 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
       
       setMessages(prev => [...prev, { role: 'model', text: '' }]);
       
+      let displayedText = '';
+      let targetText = '';
+
+      // Typewriter effect interval (types 3 characters every 15ms for liquid-smooth typing)
+      const interval = setInterval(() => {
+        if (displayedText.length < targetText.length) {
+          const step = Math.min(3, targetText.length - displayedText.length);
+          displayedText += targetText.slice(displayedText.length, displayedText.length + step);
+          setMessages(prev => {
+            const newMsgs = [...prev];
+            const lastIndex = newMsgs.length - 1;
+            if (lastIndex >= 0 && newMsgs[lastIndex].role === 'model') {
+              newMsgs[lastIndex] = { 
+                ...newMsgs[lastIndex], 
+                text: displayedText 
+              };
+            }
+            return newMsgs;
+          });
+        }
+      }, 15);
+
       for await (const chunk of result.stream) {
         const chunkText = chunk.text();
-        setMessages(prev => {
-          const newMsgs = [...prev];
-          const lastIndex = newMsgs.length - 1;
+        targetText += chunkText;
+      }
+
+      // Wait until typewriter animation catches up with the complete response
+      while (displayedText.length < targetText.length) {
+        await new Promise(resolve => setTimeout(resolve, 20));
+      }
+
+      clearInterval(interval);
+
+      // Finalize exact text state
+      setMessages(prev => {
+        const newMsgs = [...prev];
+        const lastIndex = newMsgs.length - 1;
+        if (lastIndex >= 0 && newMsgs[lastIndex].role === 'model') {
           newMsgs[lastIndex] = { 
             ...newMsgs[lastIndex], 
-            text: newMsgs[lastIndex].text + chunkText 
+            text: targetText 
           };
-          return newMsgs;
-        });
-      }
+        }
+        return newMsgs;
+      });
     } catch (error) {
       console.error(error);
       setMessages(prev => [...prev, { role: 'model', text: 'Maaf, terjadi kesalahan. Silakan coba lagi nanti.' }]);
@@ -112,15 +146,17 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
   };
 
   const renderMessage = (text) => {
-    // Bersihkan koma, titik, baris baru, dan kata penghubung di sekitar tag produk
+    // Bersihkan koma, titik, baris baru, dan kata penghubung di sekitar tag produk & mailto link
     const cleanText = text
       .replace(/\]\],?\s*(dan\s*)?\[\[/gi, ']][[') // Gabungkan tag yang berdekatan
       .replace(/\]\]\s*\n/g, ']]') // Hapus enter setelah kartu
       .replace(/\n\s*\[\[/g, '[[') // Hapus enter sebelum kartu
-      .replace(/\]\]\./g, ']]'); // Hapus titik setelah kartu
+      .replace(/\]\]\./g, ']]') // Hapus titik setelah kartu
+      .replace(/\n+\s*(\[.*?\]\(mailto:.*?\))/gi, ' $1') // Hapus enter sebelum mailto link
+      .replace(/(\[.*?\]\(mailto:.*?\))\s*\n+/gi, '$1 '); // Hapus enter setelah mailto link
 
-    // Regex splits the text but keeps the matched delimiters in the resulting array
-    const parts = cleanText.split(/(\[\[.*?\]\]|\*\*.*?\*\*|\*.*?\*|\n)/g);
+    // Regex splits the text into product tags, markdown links, email addresses, bold, italic, and newlines
+    const parts = cleanText.split(/(\[\[.*?\]\]|\[.*?\]\(.*?\)|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\*\*.*?\*\*|\*.*?\*|\n)/g);
     
     return parts.map((part, i) => {
       if (!part) return null;
@@ -168,6 +204,85 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
               <ArrowRight size={18} />
             </div>
           </div>
+        );
+      } else if (part.startsWith('[') && part.includes('](') && part.endsWith(')')) {
+        const label = part.slice(1, part.indexOf(']'));
+        const url = part.slice(part.indexOf('](') + 2, -1);
+        const isMail = url.startsWith('mailto:');
+        return (
+          <a
+            key={i}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              padding: '3px 12px',
+              background: 'linear-gradient(135deg, #111111 0%, #2a2a2a 100%)',
+              color: '#ffffff',
+              borderRadius: '999px',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              fontFamily: 'Outfit, sans-serif',
+              textDecoration: 'none',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.2s ease',
+              margin: '0 4px',
+              verticalAlign: 'middle'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.25)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.15)';
+            }}
+          >
+            {isMail ? <Mail size={12} style={{ color: '#f8e3de' }} /> : <ExternalLink size={12} />}
+            <span>{label}</span>
+            <ArrowRight size={12} style={{ opacity: 0.8 }} />
+          </a>
+        );
+      } else if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
+        return (
+          <a
+            key={i}
+            href={`mailto:${part}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '5px',
+              padding: '3px 12px',
+              background: 'linear-gradient(135deg, #111111 0%, #2a2a2a 100%)',
+              color: '#ffffff',
+              borderRadius: '999px',
+              fontSize: '0.8rem',
+              fontWeight: 500,
+              fontFamily: 'Outfit, sans-serif',
+              textDecoration: 'none',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+              transition: 'all 0.2s ease',
+              margin: '0 4px',
+              verticalAlign: 'middle'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.25)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.15)';
+            }}
+          >
+            <Mail size={12} style={{ color: '#f8e3de' }} />
+            <span>Send Email</span>
+            <ArrowRight size={12} style={{ opacity: 0.8 }} />
+          </a>
         );
       } else if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={i}>{part.slice(2, -2)}</strong>;
@@ -267,7 +382,9 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
                       fontSize: '0.9rem',
                       lineHeight: 1.6,
                       boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
-                      maxWidth: '75%',
+                      maxWidth: '82%',
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word',
                       border: msg.role !== 'user' ? '1px solid var(--border-color)' : 'none'
                     }}
                   >
