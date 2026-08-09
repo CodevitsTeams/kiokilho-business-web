@@ -37,21 +37,40 @@ export default function AIAssistant() {
   const chatRef = useRef(null);
   const navigate = useNavigate(); // For generative UI navigation
 
-  const scrollToBottom = () => {
-    if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  const scrollAnimationRef = useRef(null);
+
+  const scrollToBottom = (force = false) => {
+    if (!chatRef.current) return;
+    const el = chatRef.current;
+    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 150;
+
+    if (isNearBottom || force) {
+      if (scrollAnimationRef.current) {
+        cancelAnimationFrame(scrollAnimationRef.current);
+      }
+      scrollAnimationRef.current = requestAnimationFrame(() => {
+        if (chatRef.current) {
+          chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+      });
     }
   };
 
   useEffect(() => {
     if (isOpen) {
-      scrollToBottom();
+      scrollToBottom(true);
       const timer = setTimeout(() => {
-        scrollToBottom();
+        scrollToBottom(true);
       }, 60);
       return () => clearTimeout(timer);
     }
-  }, [isOpen, messages, isLoading]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isLoading, isOpen]);
 
   useEffect(() => {
     localStorage.setItem('kiokilho_ai_chat', JSON.stringify(messages));
@@ -69,7 +88,7 @@ export default function AIAssistant() {
     setIsLoading(true);
 
     try {
-      const systemInstruction = `Kamu adalah asisten virtual Kiokilho, brand tas goni premium di Indonesia. Jawab pertanyaan pengguna dengan gaya bahasa yang elegan, ramah, dan profesional. Selalu bantu pengguna menemukan produk tas goni yang tepat. Jika pengguna ingin memesan produk secara langsung, butuh bantuan lebih lanjut, atau menanyakan hal yang tidak kamu ketahui, barulah arahkan mereka untuk chat ke WhatsApp kami di 081226841755 (Admin). Jangan paksa mengarahkan ke WA jika pengguna hanya bertanya santai. SANGAT PENTING 1: Kamu HANYA diizinkan untuk membahas topik seputar Kiokilho, produk tas, eco-fashion, dan pesanan. Jika ditanya di luar itu, jawab: 'Maaf, aku hanya bisa menjawab seputar produk Kiokilho.'
+      const systemInstruction = `Kamu adalah asisten virtual Kiokilho, brand tas goni premium di Indonesia. Jawab pertanyaan pengguna dengan gaya bahasa yang elegan, ramah, dan profesional. Selalu bantu pengguna menemukan produk tas goni yang tepat. Jika pengguna ingin memesan produk secara langsung, butuh bantuan lebih lanjut, atau menanyakan hal yang tidak kamu ketahui, barulah arahkan mereka untuk chat ke WhatsApp kami melalui tautan [Send Message](https://wa.me/6281226841755) LANGSUNG MENYATU secara INLINE di dalam kalimat. DILARANG KERAS membuat baris baru/enter di atas maupun di bawah tautan tersebut, dan DILARANG menambahkan teks terpisah seperti "(Admin)" di luar tautan! Jangan paksa mengarahkan ke WA jika pengguna hanya bertanya santai. SANGAT PENTING 1: Kamu HANYA diizinkan untuk membahas topik seputar Kiokilho, produk tas, eco-fashion, dan pesanan. Jika ditanya di luar itu, jawab: 'Maaf, aku hanya bisa menjawab seputar produk Kiokilho.'
 
 Informasi Perusahaan (Gunakan ini jika ditanya tentang lokasi, asal, legalitas, atau keamanan bertransaksi):
 - Alamat Fisik / Toko: Jl. Nglengkong-Ledoksari, Sumberwatu, RT04/02 Dowangsari, Sambirejo, Kec. Prambanan, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55572 (Berada di kawasan wisata Candi Prambanan).
@@ -82,7 +101,7 @@ ${dbProducts.map(p => `- Nama: ${p.name}, Kategori: ${p.category}, Harga Jual: $
 
 SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB bungkus namanya dengan kurung siku ganda persis seperti namanya, contoh: [[Nama Produk]]. JANGAN tambahkan tanda baca (koma/titik) atau kata penghubung ('dan') di sekitar kurung siku. Tuliskan setiap produk di baris baru (Enter) agar tampilan kartu UI rapi.`;
 
-      const dynamicModel = genAI.getGenerativeModel({ 
+      const dynamicModel = genAI.getGenerativeModel({
         model: "gemini-3.1-flash-lite",
         systemInstruction
       });
@@ -94,13 +113,14 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
 
       const chat = dynamicModel.startChat({ history });
       const result = await chat.sendMessageStream(userMessage);
-      
+
+      setIsLoading(false);
       setMessages(prev => [...prev, { role: 'model', text: '' }]);
-      
+
       let displayedText = '';
       let targetText = '';
 
-      // Typewriter effect interval (types 3 characters every 15ms for liquid-smooth typing)
+      // Typewriter effect interval (types 3 characters every 25ms for liquid-smooth typing without frame jitter)
       const interval = setInterval(() => {
         if (displayedText.length < targetText.length) {
           const step = Math.min(3, targetText.length - displayedText.length);
@@ -109,15 +129,15 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
             const newMsgs = [...prev];
             const lastIndex = newMsgs.length - 1;
             if (lastIndex >= 0 && newMsgs[lastIndex].role === 'model') {
-              newMsgs[lastIndex] = { 
-                ...newMsgs[lastIndex], 
-                text: displayedText 
+              newMsgs[lastIndex] = {
+                ...newMsgs[lastIndex],
+                text: displayedText
               };
             }
             return newMsgs;
           });
         }
-      }, 15);
+      }, 25);
 
       for await (const chunk of result.stream) {
         const chunkText = chunk.text();
@@ -136,9 +156,9 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
         const newMsgs = [...prev];
         const lastIndex = newMsgs.length - 1;
         if (lastIndex >= 0 && newMsgs[lastIndex].role === 'model') {
-          newMsgs[lastIndex] = { 
-            ...newMsgs[lastIndex], 
-            text: targetText 
+          newMsgs[lastIndex] = {
+            ...newMsgs[lastIndex],
+            text: targetText
           };
         }
         return newMsgs;
@@ -152,41 +172,43 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
   };
 
   const renderMessage = (text) => {
-    // Bersihkan koma, titik, baris baru, dan kata penghubung di sekitar tag produk & mailto link
+    // Bersihkan koma, titik, baris baru, dan kata penghubung di sekitar tag produk, wa, & mailto link
     const cleanText = text
       .replace(/\]\],?\s*(dan\s*)?\[\[/gi, ']][[') // Gabungkan tag yang berdekatan
       .replace(/\]\]\s*\n/g, ']]') // Hapus enter setelah kartu
       .replace(/\n\s*\[\[/g, '[[') // Hapus enter sebelum kartu
       .replace(/\]\]\./g, ']]') // Hapus titik setelah kartu
-      .replace(/\n+\s*(\[.*?\]\(mailto:.*?\))/gi, ' $1') // Hapus enter sebelum mailto link
-      .replace(/(\[.*?\]\(mailto:.*?\))\s*\n+/gi, '$1 '); // Hapus enter setelah mailto link
+      .replace(/\s*\n+\s*(\[.*?\]\(https?:\/\/wa\.me.*?\))/gi, ' $1') // Hapus enter & spasi ganda sebelum wa link
+      .replace(/(\[.*?\]\(https?:\/\/wa\.me.*?\))\s*\n+\s*/gi, '$1 ') // Hapus enter & spasi ganda setelah wa link
+      .replace(/\s*\n+\s*(\[.*?\]\(mailto:.*?\))/gi, ' $1') // Hapus enter & spasi ganda sebelum mailto link
+      .replace(/(\[.*?\]\(mailto:.*?\))\s*\n+\s*/gi, '$1 '); // Hapus enter & spasi ganda setelah mailto link
 
-    // Regex splits the text into product tags, markdown links, email addresses, bold, italic, and newlines
-    const parts = cleanText.split(/(\[\[.*?\]\]|\[.*?\]\(.*?\)|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\*\*.*?\*\*|\*.*?\*|\n)/g);
-    
+    // Regex splits the text into product tags, markdown links, WA links/numbers, email addresses, bold, italic, and newlines
+    const parts = cleanText.split(/(\[\[.*?\]\]|\[.*?\]\(.*?\)|https?:\/\/wa\.me\/\d+|(?:08|\+628|628)\d{8,11}|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\*\*.*?\*\*|\*.*?\*|\n)/g);
+
     return parts.map((part, i) => {
       if (!part) return null;
-      
+
       if (part.startsWith('[[') && part.endsWith(']]')) {
         const parsedName = part.slice(2, -2).trim();
         const foundProduct = dbProducts.find(p => p.name.toLowerCase() === parsedName.toLowerCase());
-        
+
         const imgSrc = foundProduct ? foundProduct.image_url : null;
         const price = foundProduct ? foundProduct.price : "";
         const actualName = foundProduct ? foundProduct.name : parsedName;
 
         return (
-          <div 
-            key={i} 
+          <div
+            key={i}
             onClick={() => navigate(`/products?q=${encodeURIComponent(actualName)}`)}
-            style={{ 
-              margin: '6px 0', 
-              padding: '10px', 
-              background: '#fafafa', 
-              border: '1px solid var(--border-color)', 
-              borderRadius: '12px', 
-              display: 'flex', 
-              alignItems: 'center', 
+            style={{
+              margin: '6px 0',
+              padding: '10px',
+              background: '#fafafa',
+              border: '1px solid var(--border-color)',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
               gap: '12px',
               cursor: 'pointer',
               transition: 'all 0.2s',
@@ -215,6 +237,50 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
         const label = part.slice(1, part.indexOf(']'));
         const url = part.slice(part.indexOf('](') + 2, -1);
         const isMail = url.startsWith('mailto:');
+        const isWA = url.includes('wa.me') || url.includes('whatsapp.com');
+
+        if (isWA) {
+          return (
+            <a
+              key={i}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '3px 12px',
+                background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                color: '#ffffff',
+                borderRadius: '999px',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                fontFamily: 'Outfit, sans-serif',
+                textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(37, 211, 102, 0.25)',
+                transition: 'all 0.2s ease',
+                margin: '2px 4px 2px 0',
+                verticalAlign: 'middle'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 211, 102, 0.4)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 211, 102, 0.25)';
+              }}
+            >
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff" style={{ flexShrink: 0 }}>
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>
+              <span>Send Message</span>
+              <ArrowRight size={11} style={{ opacity: 0.9 }} />
+            </a>
+          );
+        }
+
         return (
           <a
             key={i}
@@ -235,7 +301,7 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
               textDecoration: 'none',
               boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
               transition: 'all 0.2s ease',
-              margin: '0 4px',
+              margin: '2px 4px 2px 0',
               verticalAlign: 'middle'
             }}
             onMouseOver={(e) => {
@@ -250,6 +316,52 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
             {isMail ? <Mail size={12} style={{ color: '#f8e3de' }} /> : <ExternalLink size={12} />}
             <span>{label}</span>
             <ArrowRight size={12} style={{ opacity: 0.8 }} />
+          </a>
+        );
+      } else if (/^(?:08|\+628|628)\d{8,11}$/.test(part) || /^https?:\/\/wa\.me\/\d+$/.test(part)) {
+        let cleanNumber = part.replace(/\D/g, '');
+        if (cleanNumber.startsWith('08')) {
+          cleanNumber = '628' + cleanNumber.slice(2);
+        }
+        const targetUrl = part.startsWith('http') ? part : `https://wa.me/${cleanNumber}`;
+
+        return (
+          <a
+            key={i}
+            href={targetUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '3px 12px',
+              background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+              color: '#ffffff',
+              borderRadius: '999px',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              fontFamily: 'Outfit, sans-serif',
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(37, 211, 102, 0.25)',
+              transition: 'all 0.2s ease',
+              margin: '2px 4px 2px 0',
+              verticalAlign: 'middle'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(37, 211, 102, 0.4)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(37, 211, 102, 0.25)';
+            }}
+          >
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="#ffffff" style={{ flexShrink: 0 }}>
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+            </svg>
+            <span>Send Message</span>
+            <ArrowRight size={11} style={{ opacity: 0.9 }} />
           </a>
         );
       } else if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(part)) {
@@ -343,15 +455,16 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
             </div>
 
             {/* Chat Area */}
-            <div 
-              ref={chatRef} 
+            <div
+              ref={chatRef}
               data-lenis-prevent="true"
               style={{
                 flex: 1,
                 overflowY: 'auto',
                 background: '#fafafa',
                 padding: '1.5rem',
-                overscrollBehavior: 'contain'
+                overscrollBehavior: 'contain',
+                overflowAnchor: 'auto'
               }}
             >
               <div style={{
@@ -359,56 +472,56 @@ SANGAT PENTING 2: Jika merekomendasikan produk yang ada di daftar di atas, WAJIB
                 flexDirection: 'column',
                 gap: '1rem'
               }}>
-              {messages.map((msg, idx) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
-                  gap: '0.8rem',
-                  alignItems: 'flex-start'
-                }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: msg.role === 'user' ? 'var(--accent-color)' : 'var(--text-primary)',
-                    color: '#ffffff',
+                {messages.map((msg, idx) => (
+                  <div key={idx} style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0
+                    flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+                    gap: '0.8rem',
+                    alignItems: 'flex-start'
                   }}>
-                    {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      background: msg.role === 'user' ? 'var(--accent-color)' : 'var(--text-primary)',
+                      color: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
+                    </div>
+                    <div
+                      style={{
+                        background: msg.role === 'user' ? 'var(--text-primary)' : '#ffffff',
+                        color: msg.role === 'user' ? '#ffffff' : 'var(--text-primary)',
+                        padding: '0.8rem 1.2rem',
+                        borderRadius: msg.role === 'user' ? '18px 4px 18px 18px' : '4px 18px 18px 18px',
+                        fontSize: '0.9rem',
+                        lineHeight: 1.6,
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                        maxWidth: '82%',
+                        wordBreak: 'break-word',
+                        overflowWrap: 'break-word',
+                        border: msg.role !== 'user' ? '1px solid var(--border-color)' : 'none'
+                      }}
+                    >
+                      {renderMessage(msg.text)}
+                    </div>
                   </div>
-                  <div 
-                    style={{
-                      background: msg.role === 'user' ? 'var(--text-primary)' : '#ffffff',
-                      color: msg.role === 'user' ? '#ffffff' : 'var(--text-primary)',
-                      padding: '0.8rem 1.2rem',
-                      borderRadius: msg.role === 'user' ? '18px 4px 18px 18px' : '4px 18px 18px 18px',
-                      fontSize: '0.9rem',
-                      lineHeight: 1.6,
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
-                      maxWidth: '82%',
-                      wordBreak: 'break-word',
-                      overflowWrap: 'break-word',
-                      border: msg.role !== 'user' ? '1px solid var(--border-color)' : 'none'
-                    }}
-                  >
-                    {renderMessage(msg.text)}
+                ))}
+                {isLoading && (
+                  <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+                    <div style={{
+                      width: '32px', height: '32px', borderRadius: '50%', background: 'var(--text-primary)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      <Bot size={16} color="#fff" />
+                    </div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Mengetik balasan...</div>
                   </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
-                  <div style={{
-                    width: '32px', height: '32px', borderRadius: '50%', background: 'var(--text-primary)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                  }}>
-                    <Bot size={16} color="#fff" />
-                  </div>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Mengetik balasan...</div>
-                </div>
-              )}
+                )}
               </div>
             </div>
 
