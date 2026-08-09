@@ -78,7 +78,7 @@ export default function CookieConsent() {
                   scale: 1.015
                 }
               }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
+              transition={{ duration: 0.08, ease: 'easeOut' }}
               style={{
                 position: 'relative',
                 overflow: 'hidden',
@@ -99,7 +99,7 @@ export default function CookieConsent() {
                   initial: { x: '-100%', opacity: 0 },
                   hover: { x: '250%', opacity: 1 }
                 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -123,8 +123,8 @@ export default function CookieConsent() {
                 scale: 1.015,
                 y: -1
               }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15, ease: 'easeOut' }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.08, ease: 'easeOut' }}
               style={{
                 padding: '12px 24px',
                 background: 'rgba(255, 255, 255, 0.03)',
