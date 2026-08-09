@@ -44,8 +44,14 @@ export default function AIAssistant() {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    if (isOpen) {
+      scrollToBottom();
+      const timer = setTimeout(() => {
+        scrollToBottom();
+      }, 60);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, messages, isLoading]);
 
   useEffect(() => {
     localStorage.setItem('kiokilho_ai_chat', JSON.stringify(messages));
