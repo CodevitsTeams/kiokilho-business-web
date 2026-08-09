@@ -190,7 +190,7 @@ export default function Hero() {
       <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center', color: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
 
         {/* We use a fixed minHeight wrapper so the button doesn't jump up and down during text transition */}
-        <div style={{ minHeight: '280px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+        <div style={{ minHeight: isMobile ? '275px' : (isTablet ? '290px' : '295px'), display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -236,9 +236,16 @@ export default function Hero() {
                   visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { type: 'spring', damping: 28, stiffness: 110, mass: 1.2 } }
                 }}
                 className="display-1-5"
-                style={{ marginBottom: '1.5rem', color: '#ffffff', willChange: 'transform, opacity, filter' }}
+                style={{
+                  fontFamily: "'Cormorant Garamond', 'Bodoni Moda', 'Playfair Display', serif",
+                  fontWeight: 500,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '1.5rem',
+                  color: '#ffffff',
+                  willChange: 'transform, opacity, filter'
+                }}
               >
-                {slides[currentSlide].title1} <br /><span style={{ background: 'linear-gradient(135deg, #ffffff 0%, #e5d3b3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{slides[currentSlide].title2}</span>
+                {slides[currentSlide].title1} <br /><span style={{ background: 'linear-gradient(135deg, #ffffff 0%, #e5d3b3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontStyle: 'italic', fontWeight: 400 }}>{slides[currentSlide].title2}</span>
               </motion.h1>
 
               <motion.p
@@ -259,7 +266,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
-          style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: '2rem' }}
+          style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', marginTop: '1.5rem' }}
         >
           <button
             onClick={() => navigate('/products')}
@@ -285,11 +292,15 @@ export default function Hero() {
               e.currentTarget.style.transform = 'scale(1.02)';
               e.currentTarget.style.background = 'rgba(0, 0, 0, 0.35)';
               e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+              const svgIcon = e.currentTarget.querySelector('.hero-arrow-svg');
+              if (svgIcon) svgIcon.style.transform = 'translate(3px, -3px)';
             }}
             onMouseOut={(e) => {
               e.currentTarget.style.transform = 'scale(1)';
               e.currentTarget.style.background = 'rgba(0, 0, 0, 0.25)';
               e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.25)';
+              const svgIcon = e.currentTarget.querySelector('.hero-arrow-svg');
+              if (svgIcon) svgIcon.style.transform = 'translate(0, 0)';
             }}
           >
             Eksplorasi Koleksi
@@ -302,9 +313,11 @@ export default function Hero() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'transform 0.3s ease'
+              overflow: 'hidden'
             }}>
-              <ArrowUpRight size={16} strokeWidth={2} />
+              <span className="hero-arrow-svg" style={{ display: 'inline-flex', transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                <ArrowUpRight size={16} strokeWidth={2} />
+              </span>
             </div>
           </button>
         </motion.div>

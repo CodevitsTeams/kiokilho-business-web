@@ -51,7 +51,7 @@ export default function CookieConsent() {
             fontFamily: 'Outfit, sans-serif'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
             <span style={{ fontSize: '1.5rem' }}>🍪</span>
             <h4 style={{ margin: 0, fontSize: '1.28rem', fontWeight: 600, color: '#ffffff', letterSpacing: '0.01em' }}>Privasi dan Penyimpanan</h4>
           </div>
